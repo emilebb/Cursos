@@ -5,10 +5,13 @@ import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 
 export default function Navbar() {
-  const [user, setUser] = useState<{ email?: string } | null>(null);
+  const [user, setUser] = useState<{ email?: string } | null | undefined>(undefined);
 
   useEffect(() => {
-    if (!supabase) return;
+    if (!supabase) {
+      setUser(null);
+      return;
+    }
 
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
@@ -49,7 +52,9 @@ export default function Navbar() {
           className="bg-gray-900 px-4 py-2 rounded-lg text-sm outline-none border border-gray-700 focus:border-blue-500"
         />
 
-        {user ? (
+        {user === undefined ? (
+          <div className="w-32 h-9 bg-gray-800 rounded-lg animate-pulse" />
+        ) : user ? (
           <div className="flex items-center gap-4">
             <Link href="/profile">
               <button className="bg-blue-600 px-4 py-2 rounded-lg hover:bg-blue-500 transition">
