@@ -20,12 +20,6 @@ export default function ProfilePage() {
     getUser();
   }, []);
 
-  async function logout() {
-    if (supabase) await supabase.auth.signOut();
-    const base = process.env.NEXT_PUBLIC_BASE_PATH || "";
-    window.location.href = base ? `${base}/` : "/";
-  }
-
   if (user === undefined) {
     return (
       <main className="min-h-screen flex items-center justify-center text-white bg-black">
@@ -61,14 +55,7 @@ export default function ProfilePage() {
 
         <p className="text-gray-400 mb-6 break-all">📧 {user.email}</p>
 
-        <p className="text-gray-500 text-sm mb-6">📚 Cursos en progreso — próximamente</p>
-
-        <button
-          onClick={logout}
-          className="bg-red-600 px-6 py-3 rounded-lg hover:bg-red-500 transition"
-        >
-          ⚙ Cerrar sesión
-        </button>
+        <p className="text-gray-500 text-sm">📚 Cursos en progreso — próximamente</p>
       </div>
     </main>
   );
