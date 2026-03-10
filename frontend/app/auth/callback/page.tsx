@@ -1,10 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { supabase } from "@/lib/supabase";
 
-export default function AuthCallbackPage() {
+function AuthCallbackContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [message, setMessage] = useState("Confirmando tu cuenta...");
@@ -16,6 +15,11 @@ export default function AuthCallbackPage() {
 
     async function handleCallback() {
       try {
+        const { supabase } = await import("@/lib/supabase");
+        if (!supabase) {
+          setMessage("Supabase no configurado.");
+          return;
+        }
         if (code) {
           const { error } = await supabase.auth.exchangeCodeForSession(code);
           if (error) {
@@ -44,5 +48,19 @@ export default function AuthCallbackPage() {
     <main className="min-h-screen flex items-center justify-center bg-black text-white">
       <p className="text-lg">{message}</p>
     </main>
+  );
+}
+
+export default function AuthCallbackPage() {
+  return (
+    <Suspense
+      fallback={
+        <main className="min-h-screen flex items-center justify-center bg-black text-white">
+          <p className="text-lg">Confirmando tu cuenta...</p>
+        </main>
+      }
+    >
+      <AuthCallbackContent />
+    </Suspense>
   );
 }

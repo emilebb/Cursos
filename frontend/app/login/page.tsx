@@ -13,6 +13,10 @@ export default function LoginPage() {
   const [isRegister, setIsRegister] = useState(false);
 
   async function handleSendCode() {
+    if (!supabase) {
+      alert("Supabase no configurado. Añade las variables de entorno.");
+      return;
+    }
     const redirectTo =
       typeof window !== "undefined"
         ? `${window.location.origin}/auth/callback`
@@ -32,6 +36,10 @@ export default function LoginPage() {
   }
 
   async function handleVerifyCode() {
+    if (!supabase) {
+      alert("Supabase no configurado.");
+      return;
+    }
     const { error } = await supabase.auth.verifyOtp({
       email,
       token: code.trim(),
@@ -47,6 +55,10 @@ export default function LoginPage() {
   }
 
   async function handleLogin() {
+    if (!supabase) {
+      alert("Supabase no configurado.");
+      return;
+    }
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -61,6 +73,10 @@ export default function LoginPage() {
   }
 
   async function handleRegister() {
+    if (!supabase) {
+      alert("Supabase no configurado.");
+      return;
+    }
     const { error: signUpError } = await supabase.auth.signUp({
       email,
       password,
