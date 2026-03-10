@@ -1,0 +1,16 @@
+# Dependencies
+node_modules/
+
+# Env and secrets (no subir a GitHub)
+.env
+.env.local
+.env.*.local
+backend/.env
+
+# Next / build
+frontend/.next/
+frontend/out/
+
+# Misc
+.DS_Store
+*.log
