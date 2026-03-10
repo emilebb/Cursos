@@ -51,6 +51,11 @@ export default function Navbar() {
 
         {user ? (
           <div className="flex items-center gap-4">
+            <Link href="/profile">
+              <button className="bg-blue-600 px-4 py-2 rounded-lg hover:bg-blue-500 transition">
+                Perfil
+              </button>
+            </Link>
             <span className="text-gray-400 text-sm truncate max-w-[120px]">
               {user.email}
             </span>
@@ -62,11 +67,18 @@ export default function Navbar() {
             </button>
           </div>
         ) : (
-          <Link href="/login">
-            <button className="bg-blue-600 px-4 py-2 rounded-lg hover:bg-blue-500 transition">
-              Iniciar sesión
-            </button>
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link href="/profile">
+              <button className="text-gray-300 hover:text-white px-3 py-2 transition">
+                Perfil
+              </button>
+            </Link>
+            <Link href="/login">
+              <button className="bg-blue-600 px-4 py-2 rounded-lg hover:bg-blue-500 transition">
+                Iniciar sesión
+              </button>
+            </Link>
+          </div>
         )}
       </div>
     </nav>
