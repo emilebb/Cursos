@@ -53,35 +53,42 @@ export default function Navbar() {
         />
 
         {user === undefined ? (
-          <div className="w-32 h-9 bg-gray-800 rounded-lg animate-pulse" />
+          <div className="w-36 h-10 bg-gray-800/50 rounded-full animate-pulse" />
         ) : user ? (
-          <div className="flex items-center gap-4">
-            <Link href="/profile">
-              <button className="bg-blue-600 px-4 py-2 rounded-lg hover:bg-blue-500 transition">
-                Perfil
-              </button>
-            </Link>
-            <span className="text-gray-400 text-sm truncate max-w-[120px]">
+          <div className="flex items-center gap-3 pl-4 py-2 pr-2 rounded-full bg-gray-800/40 border border-gray-700/50">
+            <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-sm font-semibold shrink-0">
+              {user.email?.[0]?.toUpperCase() ?? "?"}
+            </div>
+            <span className="text-gray-300 text-sm max-w-[140px] truncate" title={user.email}>
               {user.email}
             </span>
+            <span className="text-gray-600">|</span>
+            <Link
+              href="/profile"
+              className="text-gray-400 hover:text-white text-sm font-medium transition"
+            >
+              Perfil
+            </Link>
             <button
               onClick={handleSignOut}
-              className="bg-gray-700 px-4 py-2 rounded-lg hover:bg-gray-600 transition"
+              className="text-gray-400 hover:text-red-400 text-sm font-medium transition px-2 py-1 rounded hover:bg-gray-700/50"
             >
-              Cerrar sesión
+              Salir
             </button>
           </div>
         ) : (
           <div className="flex items-center gap-3">
-            <Link href="/profile">
-              <button className="text-gray-300 hover:text-white px-3 py-2 transition">
-                Perfil
-              </button>
+            <Link
+              href="/profile"
+              className="text-gray-400 hover:text-white text-sm transition"
+            >
+              Perfil
             </Link>
-            <Link href="/login">
-              <button className="bg-blue-600 px-4 py-2 rounded-lg hover:bg-blue-500 transition">
-                Iniciar sesión
-              </button>
+            <Link
+              href="/login"
+              className="bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium px-4 py-2 rounded-lg transition"
+            >
+              Iniciar sesión
             </Link>
           </div>
         )}
