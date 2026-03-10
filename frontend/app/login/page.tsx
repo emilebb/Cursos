@@ -19,7 +19,7 @@ export default function LoginPage() {
     }
     const redirectTo =
       typeof window !== "undefined"
-        ? `${window.location.origin}/auth/callback`
+        ? `${window.location.origin}${process.env.NEXT_PUBLIC_BASE_PATH || ""}/auth/callback`
         : undefined;
 
     const { error } = await supabase.auth.signInWithOtp({
@@ -89,7 +89,7 @@ export default function LoginPage() {
 
     const redirectTo =
       typeof window !== "undefined"
-        ? `${window.location.origin}/auth/callback`
+        ? `${window.location.origin}${process.env.NEXT_PUBLIC_BASE_PATH || ""}/auth/callback`
         : undefined;
 
     const { error: otpError } = await supabase.auth.signInWithOtp({
