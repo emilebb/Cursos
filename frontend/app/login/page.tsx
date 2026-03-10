@@ -24,7 +24,8 @@ export default function LoginPage() {
       alert(error.message);
     } else {
       alert("Sesión iniciada correctamente");
-      router.replace("/");
+      const base = process.env.NEXT_PUBLIC_BASE_PATH || "";
+      window.location.href = base ? `${base}/` : "/";
     }
   }
 
