@@ -44,6 +44,9 @@ export default function Navbar() {
           <Link href="/courses" className="hover:text-white transition">
             Cursos
           </Link>
+          <Link href="/dashboard" className="hover:text-white transition">
+            Dashboard
+          </Link>
         </div>
 
         <input

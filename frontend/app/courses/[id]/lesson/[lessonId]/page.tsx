@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { courses, lessons } from "@/lib/courses";
+import CompleteLessonButton from "@/components/CompleteLessonButton";
 
 export function generateStaticParams() {
   const params: { id: string; lessonId: string }[] = [];
@@ -40,7 +41,9 @@ export default async function CourseLessonPage({
         className="rounded-lg mb-8"
       />
 
-      <p className="text-gray-300 text-lg">{lesson.content}</p>
+      <p className="text-gray-300 text-lg mb-8">{lesson.content}</p>
+
+      <CompleteLessonButton courseSlug={id} lessonSlug={lessonId} />
     </>
   );
 }
