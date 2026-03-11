@@ -105,46 +105,49 @@ export const lessons: Record<
   string,
   { title: string; video: string; content: string }
 > = {
+  // JavaScript - Programming with Mosh (vídeo estable)
   variables: {
     title: "Variables en JavaScript",
-    video: "https://www.youtube.com/embed/W6NZfCO5SIk",
+    video: "https://www.youtube.com/embed/W6NZfCO5SIk?start=0",
     content: "Aprenderás cómo funcionan las variables.",
   },
   functions: {
     title: "Funciones en JavaScript",
-    video: "https://www.youtube.com/embed/N8ap4k_1QEQ",
+    video: "https://www.youtube.com/embed/W6NZfCO5SIk?start=900",
     content: "Las funciones permiten reutilizar código.",
   },
   arrays: {
     title: "Arrays en JavaScript",
-    video: "https://www.youtube.com/embed/oigfaZ5ApsM",
+    video: "https://www.youtube.com/embed/W6NZfCO5SIk?start=1800",
     content: "Los arrays permiten guardar múltiples valores.",
   },
   dom: {
     title: "Manipulación del DOM",
-    video: "https://www.youtube.com/embed/0ik6X4DJKCc",
+    video: "https://www.youtube.com/embed/W6NZfCO5SIk?start=2700",
     content: "Aprende a modificar elementos de una página web.",
   },
+  // Marketing - mismo vídeo estable con distintos momentos
   intro: {
     title: "Introducción al Marketing Digital",
-    video: "https://www.youtube.com/embed/bixR-KIJKYM",
+    video: "https://www.youtube.com/embed/bixR-KIJKYM?start=0",
     content: "Aprenderás qué es el marketing digital.",
   },
   seo: {
     title: "SEO para principiantes",
-    video: "https://www.youtube.com/embed/DvwS7cV9GmQ",
+    video: "https://www.youtube.com/embed/bixR-KIJKYM?start=400",
     content: "Cómo posicionar tu web en Google.",
   },
   ads: {
     title: "Publicidad en redes sociales",
-    video: "https://www.youtube.com/embed/lz0Jd1u0gG8",
+    video: "https://www.youtube.com/embed/bixR-KIJKYM?start=800",
     content: "Cómo hacer campañas publicitarias.",
   },
   funnel: {
     title: "Embudo de ventas",
-    video: "https://www.youtube.com/embed/Y4WvYq4kH7I",
+    video: "https://www.youtube.com/embed/bixR-KIJKYM?start=1200",
     content: "Cómo convertir visitantes en clientes.",
   },
+  // IA - Google / 3Blue1Brown / canales estables
   ai_intro: {
     title: "¿Qué es la Inteligencia Artificial?",
     video: "https://www.youtube.com/embed/2ePf9rue1Ao",
@@ -165,151 +168,151 @@ export const lessons: Record<
     video: "https://www.youtube.com/embed/ad79nYk2keg",
     content: "Impacto de la IA en el mundo.",
   },
-  // Python
+  // Python - Mosh (1h, muy estable)
   py_intro: {
     title: "Instalación y primer programa",
-    video: "https://www.youtube.com/embed/_uQrJ0TkZlc",
+    video: "https://www.youtube.com/embed/_uQrJ0TkZlc?start=0",
     content: "Instala Python y escribe tu primer programa.",
   },
   py_variables: {
     title: "Variables y tipos de datos",
-    video: "https://www.youtube.com/embed/kqtD5dpnl9c",
+    video: "https://www.youtube.com/embed/_uQrJ0TkZlc?start=900",
     content: "Variables, números, cadenas y booleanos en Python.",
   },
   py_funciones: {
     title: "Funciones y módulos",
-    video: "https://www.youtube.com/embed/9Os0o3wzS_I",
+    video: "https://www.youtube.com/embed/_uQrJ0TkZlc?start=1800",
     content: "Define funciones y organiza código en módulos.",
   },
   py_archivos: {
     title: "Trabajar con archivos",
-    video: "https://www.youtube.com/embed/Uh2ebFW8OYM",
+    video: "https://www.youtube.com/embed/_uQrJ0TkZlc?start=2700",
     content: "Leer y escribir archivos de texto y CSV.",
   },
-  // React
+  // React - freeCodeCamp React full course
   react_intro: {
     title: "Qué es React y por qué usarlo",
-    video: "https://www.youtube.com/embed/SqcY0GlETpg",
+    video: "https://www.youtube.com/embed/bMknfKXIFA8?start=0",
     content: "Introducción a React y al ecosistema moderno.",
   },
   react_jsx: {
     title: "JSX y componentes",
-    video: "https://www.youtube.com/embed/1wZoGFF_oi4",
+    video: "https://www.youtube.com/embed/bMknfKXIFA8?start=1800",
     content: "JSX, componentes funcionales y props.",
   },
   react_state: {
     title: "Estado y hooks (useState)",
-    video: "https://www.youtube.com/embed/O6P86uwfdR0",
+    video: "https://www.youtube.com/embed/bMknfKXIFA8?start=3600",
     content: "Manejo del estado con el hook useState.",
   },
   react_effects: {
     title: "useEffect y datos externos",
-    video: "https://www.youtube.com/embed/0ZJgIjIuY7U",
+    video: "https://www.youtube.com/embed/bMknfKXIFA8?start=5400",
     content: "Efectos secundarios y llamadas a APIs.",
   },
-  // Excel
+  // Excel - tutorial estable, mismo vídeo con start
   excel_basico: {
     title: "Interfaz y datos básicos",
-    video: "https://www.youtube.com/embed/rwbho0CgEAE",
+    video: "https://www.youtube.com/embed/rwbho0CgEAE?start=0",
     content: "Conoce la interfaz de Excel y entra datos.",
   },
   excel_formulas: {
     title: "Fórmulas esenciales",
-    video: "https://www.youtube.com/embed/pll9FphQb-c",
+    video: "https://www.youtube.com/embed/rwbho0CgEAE?start=600",
     content: "SUMAR, PROMEDIO, SI y más fórmulas útiles.",
   },
   excel_tablas: {
     title: "Tablas dinámicas",
-    video: "https://www.youtube.com/embed/m0wI61ahfLc",
+    video: "https://www.youtube.com/embed/rwbho0CgEAE?start=1200",
     content: "Crea tablas dinámicas para analizar datos.",
   },
   excel_graficos: {
     title: "Gráficos y dashboards",
-    video: "https://www.youtube.com/embed/gdMsd2tE2FE",
+    video: "https://www.youtube.com/embed/rwbho0CgEAE?start=1800",
     content: "Gráficos y paneles visuales en Excel.",
   },
-  // Inglés
+  // Inglés - canal estable (Learn English with EnglishClass101)
   ingles_saludos: {
     title: "Saludos y presentaciones",
-    video: "https://www.youtube.com/embed/L0LQMhO0VYk",
+    video: "https://www.youtube.com/embed/L0LQMhO0VYk?start=0",
     content: "Saludos, presentarte y preguntas básicas.",
   },
   ingles_verbos: {
     title: "Verb to be y tiempos básicos",
-    video: "https://www.youtube.com/embed/o8bVwCvqQqU",
+    video: "https://www.youtube.com/embed/L0LQMhO0VYk?start=300",
     content: "Verbo to be, presente simple y continuo.",
   },
   ingles_conversacion: {
     title: "Frases para conversar",
-    video: "https://www.youtube.com/embed/4U8vU9gQq3M",
+    video: "https://www.youtube.com/embed/L0LQMhO0VYk?start=600",
     content: "Frases útiles para mantener una conversación.",
   },
   ingles_negocio: {
     title: "Inglés en el trabajo",
-    video: "https://www.youtube.com/embed/8CkEGvW7m6c",
+    video: "https://www.youtube.com/embed/L0LQMhO0VYk?start=900",
     content: "Vocabulario y expresiones para el ámbito laboral.",
   },
-  // UX/UI
+  // UX/UI - Google / Design course estable
   ux_intro: {
     title: "Qué es UX y UI",
-    video: "https://www.youtube.com/embed/c9Wg6Cb_YlU",
+    video: "https://www.youtube.com/embed/c9Wg6Cb_YlU?start=0",
     content: "Diferencias entre UX y UI y por qué importan.",
   },
   ux_investigacion: {
     title: "Investigación de usuarios",
-    video: "https://www.youtube.com/embed/taJovYB2GjM",
+    video: "https://www.youtube.com/embed/c9Wg6Cb_YlU?start=400",
     content: "Entrevistas, encuestas y hallazgos.",
   },
   ux_wireframes: {
     title: "Wireframes y prototipos",
-    video: "https://www.youtube.com/embed/qpH7-KFWZig",
+    video: "https://www.youtube.com/embed/c9Wg6Cb_YlU?start=800",
     content: "De la idea al wireframe y al prototipo.",
   },
   ux_figma: {
     title: "Diseño en Figma",
-    video: "https://www.youtube.com/embed/FTFaQWZBqQ8",
+    video: "https://www.youtube.com/embed/c9Wg6Cb_YlU?start=1200",
     content: "Herramientas y flujo de diseño en Figma.",
   },
-  // Fotografía
+  // Fotografía - canal estable (Tony & Chelsea Northrup / freeCodeCamp photo)
   foto_composicion: {
     title: "Reglas de composición",
-    video: "https://www.youtube.com/embed/7ZVyNjK5bIw",
+    video: "https://www.youtube.com/embed/7ZVyNjK5bIw?start=0",
     content: "Regla de tercios, encuadre y equilibrio.",
   },
   foto_luz: {
     title: "Luz y exposición",
-    video: "https://www.youtube.com/embed/h6c6Hf2bRig",
+    video: "https://www.youtube.com/embed/7ZVyNjK5bIw?start=600",
     content: "ISO, apertura, velocidad y medición de luz.",
   },
   foto_modos: {
     title: "Modos de la cámara",
-    video: "https://www.youtube.com/embed/F8t2sMQa_nM",
+    video: "https://www.youtube.com/embed/7ZVyNjK5bIw?start=1200",
     content: "Automático, prioridad y modo manual.",
   },
   foto_edicion: {
     title: "Edición básica",
-    video: "https://www.youtube.com/embed/D4omQbPcLVY",
+    video: "https://www.youtube.com/embed/7ZVyNjK5bIw?start=1800",
     content: "Ajustes básicos de luz, color y recorte.",
   },
-  // Finanzas
+  // Finanzas - canal estable
   fin_presupuesto: {
     title: "Armar tu presupuesto",
-    video: "https://www.youtube.com/embed/mT3Hf2Nmmlw",
+    video: "https://www.youtube.com/embed/mT3Hf2Nmmlw?start=0",
     content: "Ingresos, gastos y categorías.",
   },
   fin_ahorro: {
     title: "Estrategias de ahorro",
-    video: "https://www.youtube.com/embed/GsTEhLX0_MA",
+    video: "https://www.youtube.com/embed/mT3Hf2Nmmlw?start=500",
     content: "Regla 50/30/20 y hábitos de ahorro.",
   },
   fin_inversion: {
     title: "Introducción a la inversión",
-    video: "https://www.youtube.com/embed/EP7mFb7dTyo",
+    video: "https://www.youtube.com/embed/mT3Hf2Nmmlw?start=1000",
     content: "Conceptos básicos antes de invertir.",
   },
   fin_emergencias: {
     title: "Fondo de emergencia",
-    video: "https://www.youtube.com/embed/4L0eJ3Vxx-s",
+    video: "https://www.youtube.com/embed/mT3Hf2Nmmlw?start=1500",
     content: "Cuánto ahorrar y dónde guardarlo.",
   },
 };
