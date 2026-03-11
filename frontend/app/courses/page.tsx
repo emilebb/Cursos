@@ -1,23 +1,17 @@
+import { Suspense } from "react";
 import Link from "next/link";
-import { courses } from "@/lib/courses";
+import CoursesContent from "./CoursesContent";
 
-export default function Courses() {
+export default function CoursesPage() {
   return (
-    <main className="min-h-screen text-white p-10">
-      <h1 className="text-4xl font-bold mb-8">
-        Cursos disponibles 📚
-      </h1>
+    <main className="min-h-screen text-white py-10 px-4 md:px-10">
+      <div className="max-w-6xl mx-auto">
+        <h1 className="text-4xl font-bold mb-2">Cursos disponibles</h1>
+        <p className="text-[#94a3b8] mb-8">Elige un curso y empieza a aprender.</p>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
-        {Object.entries(courses).map(([slug, course]) => (
-          <div key={slug} className="card">
-            <h2 className="text-xl font-bold mb-2">{course.title}</h2>
-            <p className="text-gray-400 mb-4">{course.description}</p>
-            <Link href={`/courses/${slug}`}>
-              <button className="button-primary">Ver curso</button>
-            </Link>
-          </div>
-        ))}
+        <Suspense fallback={<div className="text-[#94a3b8]">Cargando cursos...</div>}>
+          <CoursesContent />
+        </Suspense>
       </div>
     </main>
   );

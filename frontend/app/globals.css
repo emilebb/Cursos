@@ -1,45 +1,206 @@
 @import "tailwindcss";
 
 :root {
-  --background: #020617;
-  --foreground: #ffffff;
+  --background: #0f172a;
+  --foreground: #f8fafc;
+  --primary: #6366f1;
+  --primary-hover: #4f46e5;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-poppins);
+}
+
+* {
+  transition: all 0.3s ease;
 }
 
 body {
-  background: radial-gradient(circle at top, #0f172a, #020617);
-  color: white;
-  font-family: system-ui, sans-serif;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-poppins), system-ui, sans-serif;
 }
 
+/* Hero */
+.hero {
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  color: white;
+  padding: 2rem 1rem;
+}
+
+.hero h1 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.hero p {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  margin: 1rem 0 1.5rem;
+  color: #cbd5e1;
+  max-width: 36rem;
+}
+
+.hero .btn {
+  background: var(--primary);
+  padding: 0.75rem 1.875rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  color: white;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.hero .btn:hover {
+  background: var(--primary-hover);
+  transform: scale(1.05);
+}
+
+/* Tarjetas de curso (curso-card) */
+.curso-card {
+  background: rgba(30, 41, 59, 0.9);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  overflow: hidden;
+}
+
+.curso-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(99, 102, 241, 0.15);
+  border-color: rgba(99, 102, 241, 0.3);
+}
+
+.curso-card img {
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+.curso-card h3 {
+  margin-top: 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.curso-card p {
+  color: #94a3b8;
+  margin: 0.5rem 0 1rem;
+  font-size: 0.9375rem;
+}
+
+.curso-card .btn-curso {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 0.625rem 1.25rem;
+  border-radius: 0.375rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.curso-card .btn-curso:hover {
+  background: var(--primary-hover);
+  transform: scale(1.02);
+}
+
+/* Placeholder para imagen de curso (cuando no hay imagen) */
+.curso-card-placeholder {
+  width: 100%;
+  aspect-ratio: 16/9;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #334155 0%, #1e293b 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;
+  font-size: 2.5rem;
+}
+
+/* Card legacy (compatibilidad) */
 .card {
-  background: rgba(15, 23, 42, 0.8);
+  background: rgba(30, 41, 59, 0.9);
   backdrop-filter: blur(10px);
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 1.25rem;
   transition: 0.3s;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
 .card:hover {
   transform: translateY(-5px);
-  border-color: #3b82f6;
+  border-color: var(--primary);
+  box-shadow: 0 20px 40px rgba(99, 102, 241, 0.1);
 }
 
 .button-primary {
-  background: linear-gradient(135deg, #2563eb, #3b82f6);
-  padding: 12px 24px;
-  border-radius: 10px;
+  background: var(--primary);
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
   font-weight: 600;
   transition: 0.3s;
+  color: white;
+  border: none;
+  cursor: pointer;
 }
 
 .button-primary:hover {
+  background: var(--primary-hover);
   transform: scale(1.05);
+}
+
+/* Footer */
+.footer {
+  background: #0f172a;
+  color: #f8fafc;
+  text-align: center;
+  padding: 2rem 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.footer p {
+  margin: 0.25rem 0;
+  color: #94a3b8;
+}
+
+/* Secciones */
+.section-title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.testimonial-card {
+  background: rgba(30, 41, 59, 0.8);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: 0.3s;
+}
+
+.testimonial-card:hover {
+  border-color: rgba(99, 102, 241, 0.3);
 }

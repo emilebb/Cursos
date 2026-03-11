@@ -2,27 +2,25 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 
 export default function Navbar() {
+  const router = useRouter();
   const [user, setUser] = useState<{ email?: string } | null | undefined>(undefined);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     if (!supabase) {
       setUser(null);
       return;
     }
-
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
     });
-
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
     });
-
     return () => subscription.unsubscribe();
   }, []);
 
@@ -30,72 +28,80 @@ export default function Navbar() {
     if (supabase) await supabase.auth.signOut();
   }
 
-  return (
-    <nav className="w-full bg-black/80 backdrop-blur border-b border-gray-800">
-      <div className="max-w-7xl mx-auto px-8 py-4 flex items-center justify-between">
-        <Link href="/" className="text-2xl font-bold text-blue-400">
-          SkillVerse 🚀
-        </Link>
+  function handleSearch(e: React.FormEvent) {
+    e.preventDefault();
+    if (search.trim()) router.push(`/courses?q=${encodeURIComponent(search.trim())}`);
+  }
 
-        <div className="flex gap-8 text-gray-300">
-          <Link href="/" className="hover:text-white transition">
+  return (
+    <nav className="w-full bg-[#0f172a] border-b border-white/10 flex items-center justify-between px-6 md:px-12 py-4 text-white">
+      <Link href="/" className="text-xl font-bold text-white hover:text-[#a5b4fc] transition">
+        SkillVerse
+      </Link>
+
+      <ul className="hidden md:flex gap-8 list-none m-0 p-0">
+        <li>
+          <Link href="/" className="text-[#e2e8f0] hover:text-white no-underline transition">
             Inicio
           </Link>
-          <Link href="/courses" className="hover:text-white transition">
+        </li>
+        <li>
+          <Link href="/courses" className="text-[#e2e8f0] hover:text-white no-underline transition">
             Cursos
           </Link>
-          <Link href="/dashboard" className="hover:text-white transition">
+        </li>
+        <li>
+          <Link href="/dashboard" className="text-[#e2e8f0] hover:text-white no-underline transition">
             Dashboard
           </Link>
-        </div>
+        </li>
+      </ul>
 
+      <form onSubmit={handleSearch} className="hidden sm:block flex-1 max-w-xs mx-4">
         <input
-          type="text"
+          type="search"
           placeholder="Buscar cursos..."
-          className="bg-gray-900 px-4 py-2 rounded-lg text-sm outline-none border border-gray-700 focus:border-blue-500"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="w-full bg-[#1e293b] px-4 py-2 rounded-lg text-sm text-white border border-white/10 focus:border-[#6366f1] focus:outline-none"
         />
+      </form>
 
-        {user === undefined ? (
-          <div className="w-36 h-10 bg-gray-800/50 rounded-full animate-pulse" />
-        ) : user ? (
-          <div className="flex items-center gap-3 pl-4 py-2 pr-2 rounded-full bg-gray-800/40 border border-gray-700/50">
-            <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-sm font-semibold shrink-0">
-              {user.email?.[0]?.toUpperCase() ?? "?"}
-            </div>
-            <span className="text-gray-300 text-sm max-w-[140px] truncate" title={user.email}>
-              {user.email}
-            </span>
-            <span className="text-gray-600">|</span>
-            <Link
-              href="/profile"
-              className="text-gray-400 hover:text-white text-sm font-medium transition"
-            >
-              Perfil
-            </Link>
-            <button
-              onClick={handleSignOut}
-              className="text-gray-400 hover:text-red-400 text-sm font-medium transition px-2 py-1 rounded hover:bg-gray-700/50"
-            >
-              Salir
-            </button>
+      {user === undefined ? (
+        <div className="w-36 h-10 bg-[#1e293b] rounded-lg animate-pulse" />
+      ) : user ? (
+        <div className="flex items-center gap-3 pl-4 py-2 pr-2 rounded-full bg-[#1e293b]/80 border border-white/10">
+          <div className="w-8 h-8 rounded-full bg-[#6366f1] flex items-center justify-center text-white text-sm font-semibold shrink-0">
+            {user.email?.[0]?.toUpperCase() ?? "?"}
           </div>
-        ) : (
-          <div className="flex items-center gap-3">
-            <Link
-              href="/profile"
-              className="text-gray-400 hover:text-white text-sm transition"
-            >
-              Perfil
-            </Link>
-            <Link
-              href="/login"
-              className="bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium px-4 py-2 rounded-lg transition"
-            >
-              Iniciar sesión
-            </Link>
-          </div>
-        )}
-      </div>
+          <span className="text-[#e2e8f0] text-sm max-w-[140px] truncate" title={user.email}>
+            {user.email}
+          </span>
+          <span className="text-white/30">|</span>
+          <Link href="/profile" className="text-[#94a3b8] hover:text-white text-sm font-medium transition no-underline">
+            Perfil
+          </Link>
+          <button
+            type="button"
+            onClick={handleSignOut}
+            className="text-[#94a3b8] hover:text-red-400 text-sm font-medium transition px-2 py-1 rounded hover:bg-white/5"
+          >
+            Salir
+          </button>
+        </div>
+      ) : (
+        <div className="flex items-center gap-3">
+          <Link href="/profile" className="text-[#94a3b8] hover:text-white text-sm transition no-underline">
+            Perfil
+          </Link>
+          <Link
+            href="/login"
+            className="bg-[#6366f1] hover:bg-[#4f46e5] text-white text-sm font-medium px-4 py-2 rounded-lg transition no-underline"
+          >
+            Iniciar sesión
+          </Link>
+        </div>
+      )}
     </nav>
   );
 }
