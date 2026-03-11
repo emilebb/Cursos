@@ -1,7 +1,20 @@
+export type CourseModule = { title: string; lessonIds: string[] };
+
 export const courses = {
   javascript: {
     title: "Aprender JavaScript",
     description: "Desde cero hasta avanzado",
+    objectives: [
+      "Usar variables, tipos de datos y operadores con soltura",
+      "Escribir funciones reutilizables y entender el alcance",
+      "Trabajar con arrays y objetos para estructurar datos",
+      "Manipular el DOM para crear páginas interactivas",
+    ],
+    modules: [
+      { title: "Fundamentos", lessonIds: ["variables", "functions"] },
+      { title: "Estructuras de datos", lessonIds: ["arrays"] },
+      { title: "Interactividad en el navegador", lessonIds: ["dom"] },
+    ] as CourseModule[],
     lessons: [
       { id: "variables", label: "Variables" },
       { id: "functions", label: "Funciones" },
@@ -12,6 +25,17 @@ export const courses = {
   ai: {
     title: "Introducción a IA",
     description: "Fundamentos de inteligencia artificial",
+    objectives: [
+      "Definir qué es la IA y sus aplicaciones actuales",
+      "Comprender los conceptos básicos de Machine Learning",
+      "Entender cómo funcionan las redes neuronales",
+      "Reflexionar sobre el futuro y la ética de la IA",
+    ],
+    modules: [
+      { title: "¿Qué es la IA?", lessonIds: ["ai_intro"] },
+      { title: "Aprendizaje automático", lessonIds: ["machine_learning", "neural_networks"] },
+      { title: "Perspectivas", lessonIds: ["ai_future"] },
+    ] as CourseModule[],
     lessons: [
       { id: "ai_intro", label: "¿Qué es la Inteligencia Artificial?" },
       { id: "machine_learning", label: "Machine Learning explicado" },
@@ -22,6 +46,17 @@ export const courses = {
   marketing: {
     title: "Marketing Digital",
     description: "Estrategias modernas de marketing",
+    objectives: [
+      "Entender el ecosistema del marketing digital",
+      "Aplicar bases de SEO para posicionar en buscadores",
+      "Diseñar campañas en redes sociales",
+      "Construir y optimizar embudos de ventas",
+    ],
+    modules: [
+      { title: "Introducción", lessonIds: ["intro"] },
+      { title: "Tráfico orgánico y pago", lessonIds: ["seo", "ads"] },
+      { title: "Conversión", lessonIds: ["funnel"] },
+    ] as CourseModule[],
     lessons: [
       { id: "intro", label: "Introducción al Marketing Digital" },
       { id: "seo", label: "SEO para principiantes" },
@@ -32,6 +67,17 @@ export const courses = {
   python: {
     title: "Python desde cero",
     description: "Programación en Python para principiantes",
+    objectives: [
+      "Instalar Python y escribir tu primer programa",
+      "Usar variables, tipos y estructuras básicas",
+      "Crear funciones y organizar código en módulos",
+      "Leer y escribir archivos de texto y CSV",
+    ],
+    modules: [
+      { title: "Configuración y primeros pasos", lessonIds: ["py_intro"] },
+      { title: "Fundamentos del lenguaje", lessonIds: ["py_variables", "py_funciones"] },
+      { title: "Trabajo con datos", lessonIds: ["py_archivos"] },
+    ] as CourseModule[],
     lessons: [
       { id: "py_intro", label: "Instalación y primer programa" },
       { id: "py_variables", label: "Variables y tipos de datos" },
@@ -42,6 +88,16 @@ export const courses = {
   react: {
     title: "React: componentes y hooks",
     description: "Desarrollo frontend con React",
+    objectives: [
+      "Entender el modelo de componentes y el ecosistema React",
+      "Crear interfaces con JSX y componentes reutilizables",
+      "Gestionar estado con useState y efectos con useEffect",
+      "Consumir APIs y datos externos en componentes",
+    ],
+    modules: [
+      { title: "Introducción a React", lessonIds: ["react_intro", "react_jsx"] },
+      { title: "Estado y efectos", lessonIds: ["react_state", "react_effects"] },
+    ] as CourseModule[],
     lessons: [
       { id: "react_intro", label: "Qué es React y por qué usarlo" },
       { id: "react_jsx", label: "JSX y componentes" },
@@ -52,6 +108,17 @@ export const courses = {
   excel: {
     title: "Excel práctico",
     description: "Fórmulas, tablas y gráficos",
+    objectives: [
+      "Manejar la interfaz de Excel y introducir datos correctamente",
+      "Aplicar fórmulas esenciales (SUMAR, PROMEDIO, SI, etc.)",
+      "Crear tablas dinámicas para analizar datos",
+      "Elaborar gráficos y dashboards visuales",
+    ],
+    modules: [
+      { title: "Primeros pasos", lessonIds: ["excel_basico"] },
+      { title: "Fórmulas y análisis", lessonIds: ["excel_formulas", "excel_tablas"] },
+      { title: "Visualización", lessonIds: ["excel_graficos"] },
+    ] as CourseModule[],
     lessons: [
       { id: "excel_basico", label: "Interfaz y datos básicos" },
       { id: "excel_formulas", label: "Fórmulas esenciales" },
@@ -62,6 +129,16 @@ export const courses = {
   ingles: {
     title: "Inglés para el día a día",
     description: "Vocabulario, gramática y conversación",
+    objectives: [
+      "Saludar, presentarte y hacer preguntas básicas",
+      "Usar el verb to be y los tiempos presente simple y continuo",
+      "Mantener conversaciones sencillas en situaciones cotidianas",
+      "Expresarte en contextos laborales básicos",
+    ],
+    modules: [
+      { title: "Comunicación básica", lessonIds: ["ingles_saludos", "ingles_verbos"] },
+      { title: "Conversación y trabajo", lessonIds: ["ingles_conversacion", "ingles_negocio"] },
+    ] as CourseModule[],
     lessons: [
       { id: "ingles_saludos", label: "Saludos y presentaciones" },
       { id: "ingles_verbos", label: "Verb to be y tiempos básicos" },
@@ -72,6 +149,16 @@ export const courses = {
   ux: {
     title: "Diseño UX/UI",
     description: "Interfaces y experiencia de usuario",
+    objectives: [
+      "Diferenciar UX y UI y su impacto en el producto",
+      "Realizar investigación de usuarios (entrevistas, encuestas)",
+      "Crear wireframes y prototipos de baja y media fidelidad",
+      "Trabajar con Figma para diseño y colaboración",
+    ],
+    modules: [
+      { title: "Conceptos y investigación", lessonIds: ["ux_intro", "ux_investigacion"] },
+      { title: "Diseño y herramientas", lessonIds: ["ux_wireframes", "ux_figma"] },
+    ] as CourseModule[],
     lessons: [
       { id: "ux_intro", label: "Qué es UX y UI" },
       { id: "ux_investigacion", label: "Investigación de usuarios" },
@@ -82,6 +169,16 @@ export const courses = {
   fotografia: {
     title: "Fotografía básica",
     description: "Composición, luz y cámara",
+    objectives: [
+      "Aplicar reglas de composición (tercios, encuadre)",
+      "Controlar luz, exposición, ISO, apertura y velocidad",
+      "Usar modos automático, prioridad y manual de la cámara",
+      "Realizar edición básica de luz, color y recorte",
+    ],
+    modules: [
+      { title: "Composición y luz", lessonIds: ["foto_composicion", "foto_luz"] },
+      { title: "Cámara y edición", lessonIds: ["foto_modos", "foto_edicion"] },
+    ] as CourseModule[],
     lessons: [
       { id: "foto_composicion", label: "Reglas de composición" },
       { id: "foto_luz", label: "Luz y exposición" },
@@ -92,6 +189,16 @@ export const courses = {
   finanzas: {
     title: "Finanzas personales",
     description: "Ahorro, presupuesto e inversión básica",
+    objectives: [
+      "Elaborar y mantener un presupuesto personal",
+      "Aplicar estrategias de ahorro (p. ej. regla 50/30/20)",
+      "Conocer conceptos básicos de inversión",
+      "Constituir y mantener un fondo de emergencia",
+    ],
+    modules: [
+      { title: "Presupuesto y ahorro", lessonIds: ["fin_presupuesto", "fin_ahorro"] },
+      { title: "Inversión y seguridad", lessonIds: ["fin_inversion", "fin_emergencias"] },
+    ] as CourseModule[],
     lessons: [
       { id: "fin_presupuesto", label: "Armar tu presupuesto" },
       { id: "fin_ahorro", label: "Estrategias de ahorro" },
