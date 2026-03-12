@@ -1,5 +1,21 @@
 export type CourseModule = { title: string; lessonIds: string[] };
 
+export type QuizQuestion = {
+  id: string;
+  question: string;
+  options: string[];
+  correct: number;
+  explanation: string;
+};
+
+export type CourseQuiz = {
+  id: string;
+  title: string;
+  moduleId: number;
+  questions: QuizQuestion[];
+  passingScore: number;
+};
+
 export const courses = {
   javascript: {
     title: "Aprender JavaScript",
