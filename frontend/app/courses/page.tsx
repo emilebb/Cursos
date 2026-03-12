@@ -1,6 +1,12 @@
 import { Suspense } from "react";
 import Link from "next/link";
+import type { Metadata } from "next";
 import CoursesContent from "./CoursesContent";
+
+export const metadata: Metadata = {
+  title: "Cursos",
+  description: "Cursos de programación, IA, marketing, Excel, inglés, UX y más. Aprende con video y práctica.",
+};
 
 export default function CoursesPage() {
   return (

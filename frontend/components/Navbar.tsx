@@ -39,7 +39,7 @@ export default function Navbar() {
         SkillVerse
       </Link>
 
-      <ul className="hidden md:flex gap-8 list-none m-0 p-0">
+      <ul className="hidden md:flex gap-6 list-none m-0 p-0 text-sm">
         <li>
           <Link href="/" className="text-[#e2e8f0] hover:text-white no-underline transition">
             Inicio
@@ -53,6 +53,21 @@ export default function Navbar() {
         <li>
           <Link href="/dashboard" className="text-[#e2e8f0] hover:text-white no-underline transition">
             Dashboard
+          </Link>
+        </li>
+        <li>
+          <Link href="/blog" className="text-[#e2e8f0] hover:text-white no-underline transition">
+            Blog
+          </Link>
+        </li>
+        <li>
+          <Link href="/faq" className="text-[#e2e8f0] hover:text-white no-underline transition">
+            FAQ
+          </Link>
+        </li>
+        <li>
+          <Link href="/contacto" className="text-[#e2e8f0] hover:text-white no-underline transition">
+            Contacto
           </Link>
         </li>
       </ul>

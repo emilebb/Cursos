@@ -11,8 +11,26 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "SkillVerse — Aprende tecnología gratis",
-  description: "Cursos completos de programación, marketing digital e inteligencia artificial. Aprende con video y práctica.",
+  title: {
+    default: "SkillVerse — Aprende tecnología gratis",
+    template: "%s | SkillVerse",
+  },
+  description:
+    "Cursos completos de programación, marketing digital e inteligencia artificial. Aprende con video, seguimiento de progreso y certificados. Gratis.",
+  keywords: [
+    "cursos programación",
+    "aprender JavaScript",
+    "cursos Python",
+    "marketing digital",
+    "inteligencia artificial",
+    "cursos online gratis",
+    "SkillVerse",
+  ],
+  openGraph: {
+    type: "website",
+    locale: "es_ES",
+  },
+  robots: "index, follow",
 };
 
 export default function RootLayout({

@@ -55,7 +55,9 @@ export default function ProfilePage() {
 
         <p className="text-gray-400 mb-6 break-all">📧 {user.email}</p>
 
-        <p className="text-gray-500 text-sm">📚 Cursos en progreso — próximamente</p>
+        <Link href="/dashboard" className="text-[#6366f1] hover:underline text-sm block mb-2">
+          Ver progreso e insignias en el Dashboard →
+        </Link>
       </div>
     </main>
   );

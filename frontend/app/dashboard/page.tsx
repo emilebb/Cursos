@@ -72,10 +72,31 @@ export default function DashboardPage() {
     );
   }
 
+  const completed = progress.filter((p) => p.percent === 100);
+
   return (
     <main className="min-h-screen bg-black text-white p-10">
       <h1 className="text-4xl font-bold mb-2">Tus cursos</h1>
-      <p className="text-gray-400 mb-10">Progreso por curso</p>
+      <p className="text-gray-400 mb-6">Progreso por curso</p>
+
+      {/* Insignias / Certificados */}
+      {completed.length > 0 && (
+        <section className="mb-10 max-w-2xl">
+          <h2 className="text-xl font-semibold text-white mb-4">🏅 Cursos completados</h2>
+          <div className="flex flex-wrap gap-3">
+            {completed.map(({ slug, title }) => (
+              <div
+                key={slug}
+                className="flex items-center gap-2 bg-[#1e293b] border border-[#6366f1]/40 rounded-lg px-4 py-2"
+                title={`Completado: ${title}`}
+              >
+                <span className="text-lg">✓</span>
+                <span className="text-[#e2e8f0] font-medium">{title}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       <div className="space-y-8 max-w-2xl">
         {progress.map(({ slug, title, percent }) => (
