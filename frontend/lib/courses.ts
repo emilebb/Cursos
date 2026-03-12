@@ -1,4 +1,51 @@
+import { supabase } from "./supabase";
+
 export type CourseModule = { title: string; lessonIds: string[] };
+
+export type CourseListItem = {
+  id: string;
+  title: string;
+  description: string;
+  thumbnail?: string;
+};
+
+/**
+ * Priority:
+ * 1. /cursos.json  (frontend/public/cursos.json — edit without touching code)
+ * 2. Supabase      (if configured and table has rows)
+ * 3. Local data    (hardcoded in this file — always available)
+ */
+export async function getCourses(): Promise<CourseListItem[]> {
+  // 1️⃣ Try public/cursos.json (works in browser and during SSR via absolute URL)
+  try {
+    const baseUrl =
+      typeof window !== "undefined"
+        ? ""                                    // browser: relative URL works
+        : process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000"; // SSR
+    const res = await fetch(`${baseUrl}/cursos.json`, { cache: "no-store" });
+    if (res.ok) {
+      const json = await res.json();
+      if (Array.isArray(json.courses) && json.courses.length > 0)
+        return json.courses as CourseListItem[];
+    }
+  } catch {
+    // If fetch fails (e.g. build time), continue to next source
+  }
+
+  // 2️⃣ Try Supabase
+  if (supabase) {
+    const { data, error } = await supabase.from("courses").select("*");
+    if (!error && data && data.length > 0) return data as CourseListItem[];
+  }
+
+  // 3️⃣ Local hardcoded fallback
+  return Object.entries(courses).map(([slug, c]) => ({
+    id: slug,
+    title: c.title,
+    description: c.description,
+  }));
+}
+
 
 export type QuizQuestion = {
   id: string;

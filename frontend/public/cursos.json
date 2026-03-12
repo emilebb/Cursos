@@ -1,0 +1,94 @@
+{
+  "courses": [
+    {
+      "id": "html",
+      "title": "Curso de HTML Básico",
+      "description": "Aprende HTML desde cero con ejemplos prácticos.",
+      "thumbnail": "",
+      "category": "Programación",
+      "level": "Principiante",
+      "emoji": "🌐"
+    },
+    {
+      "id": "css",
+      "title": "Curso de CSS",
+      "description": "Aprende a estilizar tus páginas web con CSS.",
+      "thumbnail": "",
+      "category": "Programación",
+      "level": "Principiante",
+      "emoji": "🎨"
+    },
+    {
+      "id": "javascript",
+      "title": "Curso de JavaScript",
+      "description": "Introducción a JavaScript para principiantes.",
+      "thumbnail": "",
+      "category": "Programación",
+      "level": "Principiante",
+      "emoji": "🟨"
+    },
+    {
+      "id": "react",
+      "title": "Curso de React",
+      "description": "Aprende los fundamentos de React.js con proyectos simples.",
+      "thumbnail": "",
+      "category": "Programación",
+      "level": "Intermedio",
+      "emoji": "⚛️"
+    },
+    {
+      "id": "typescript",
+      "title": "Curso de TypeScript",
+      "description": "Domina TypeScript y tipado estático en JavaScript.",
+      "thumbnail": "",
+      "category": "Programación",
+      "level": "Intermedio",
+      "emoji": "🔷"
+    },
+    {
+      "id": "node",
+      "title": "Curso de Node.js",
+      "description": "Aprende a crear servidores y APIs con Node.js.",
+      "thumbnail": "",
+      "category": "Programación",
+      "level": "Intermedio",
+      "emoji": "🟢"
+    },
+    {
+      "id": "python",
+      "title": "Curso de Python",
+      "description": "Introducción a Python para principiantes con ejemplos prácticos.",
+      "thumbnail": "",
+      "category": "Programación",
+      "level": "Principiante",
+      "emoji": "🐍"
+    },
+    {
+      "id": "github",
+      "title": "Curso de Git y GitHub",
+      "description": "Aprende control de versiones y colaboración con Git y GitHub.",
+      "thumbnail": "",
+      "category": "Herramientas",
+      "level": "Principiante",
+      "emoji": "🐙"
+    },
+    {
+      "id": "sql",
+      "title": "Curso de SQL",
+      "description": "Aprende a manejar bases de datos relacionales con SQL.",
+      "thumbnail": "",
+      "category": "Bases de Datos",
+      "level": "Principiante",
+      "emoji": "🗄️"
+    },
+    {
+      "id": "marketing",
+      "title": "Curso de Marketing Digital",
+      "description": "Conceptos básicos de marketing digital y redes sociales.",
+      "thumbnail": "",
+      "category": "Marketing",
+      "level": "Principiante",
+      "emoji": "📣"
+    }
+  ]
+}
