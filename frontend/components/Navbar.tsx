@@ -90,17 +90,12 @@ export default function Navbar() {
           </button>
         </div>
       ) : (
-        <div className="flex items-center gap-3">
-          <Link href="/profile" className="text-[#94a3b8] hover:text-white text-sm transition no-underline">
-            Perfil
-          </Link>
-          <Link
-            href="/login"
-            className="bg-[#6366f1] hover:bg-[#4f46e5] text-white text-sm font-medium px-4 py-2 rounded-lg transition no-underline"
-          >
-            Iniciar sesión
-          </Link>
-        </div>
+        <Link
+          href="/login"
+          className="bg-[#6366f1] hover:bg-[#4f46e5] text-white text-sm font-medium px-4 py-2 rounded-lg transition no-underline"
+        >
+          Iniciar sesión
+        </Link>
       )}
     </nav>
   );
