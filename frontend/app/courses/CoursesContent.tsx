@@ -7,7 +7,7 @@ import { courses } from "@/lib/courses";
 
 const CATEGORIES: Record<string, string[]> = {
   Todos: [],
-  Programación: ["javascript", "python", "python_fullstack", "react"],
+  Programación: ["javascript", "python_fullstack", "react"],
   IA: ["ai"],
   Marketing: ["marketing"],
   Productividad: ["excel"],
@@ -21,7 +21,6 @@ const EMOJI_BY_SLUG: Record<string, string> = {
   javascript: "🟨",
   ai: "🤖",
   marketing: "📣",
-  python: "🐍",
   python_fullstack: "🚀",
   react: "⚛️",
   excel: "📊",

@@ -64,27 +64,6 @@ export const courses = {
       { id: "funnel", label: "Embudo de ventas" },
     ],
   },
-  python: {
-    title: "Python desde cero",
-    description: "Programación en Python para principiantes",
-    objectives: [
-      "Instalar Python y escribir tu primer programa",
-      "Usar variables, tipos y estructuras básicas",
-      "Crear funciones y organizar código en módulos",
-      "Leer y escribir archivos de texto y CSV",
-    ],
-    modules: [
-      { title: "Configuración y primeros pasos", lessonIds: ["py_intro"] },
-      { title: "Fundamentos del lenguaje", lessonIds: ["py_variables", "py_funciones"] },
-      { title: "Trabajo con datos", lessonIds: ["py_archivos"] },
-    ] as CourseModule[],
-    lessons: [
-      { id: "py_intro", label: "Instalación y primer programa" },
-      { id: "py_variables", label: "Variables y tipos de datos" },
-      { id: "py_funciones", label: "Funciones y módulos" },
-      { id: "py_archivos", label: "Trabajar con archivos" },
-    ],
-  },
   react: {
     title: "React: componentes y hooks",
     description: "Desarrollo frontend con React",
@@ -319,27 +298,6 @@ export const lessons: Record<
     title: "El futuro de la IA",
     video: "https://www.youtube.com/embed/ad79nYk2keg",
     content: "Impacto de la IA en el mundo.",
-  },
-  // Python - Mosh (1h, muy estable)
-  py_intro: {
-    title: "Instalación y primer programa",
-    video: "https://www.youtube.com/embed/_uQrJ0TkZlc?start=0",
-    content: "Instala Python y escribe tu primer programa.",
-  },
-  py_variables: {
-    title: "Variables y tipos de datos",
-    video: "https://www.youtube.com/embed/_uQrJ0TkZlc?start=900",
-    content: "Variables, números, cadenas y booleanos en Python.",
-  },
-  py_funciones: {
-    title: "Funciones y módulos",
-    video: "https://www.youtube.com/embed/_uQrJ0TkZlc?start=1800",
-    content: "Define funciones y organiza código en módulos.",
-  },
-  py_archivos: {
-    title: "Trabajar con archivos",
-    video: "https://www.youtube.com/embed/_uQrJ0TkZlc?start=2700",
-    content: "Leer y escribir archivos de texto y CSV.",
   },
   // React - freeCodeCamp React full course
   react_intro: {
