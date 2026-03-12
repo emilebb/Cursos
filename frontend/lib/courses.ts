@@ -206,6 +206,51 @@ export const courses = {
       { id: "fin_emergencias", label: "Fondo de emergencia" },
     ],
   },
+  python_fullstack: {
+    title: "Desarrollo Web Full Stack con Python",
+    description: "Crea aplicaciones web completas desde cero",
+    objectives: [
+      "Dominar Python fundamentals para desarrollo web",
+      "Construir aplicaciones web con Flask",
+      "Diseñar y gestionar bases de datos SQL",
+      "Crear APIs RESTful profesionales",
+      "Desplegar aplicaciones en producción",
+    ],
+    modules: [
+      { title: "Fundamentos de Python", lessonIds: ["pyfs_intro", "pyfs_variables", "pyfs_control", "pyfs_functions"] },
+      { title: "Desarrollo Web con Flask", lessonIds: ["pyfs_flask_intro", "pyfs_routes", "pyfs_forms", "pyfs_auth"] },
+      { title: "Bases de Datos con SQL", lessonIds: ["pyfs_db_intro", "pyfs_sqlalchemy", "pyfs_crud", "pyfs_relations"] },
+      { title: "Frontend Moderno", lessonIds: ["pyfs_html_css", "pyfs_js", "pyfs_bootstrap", "pyfs_integration"] },
+      { title: "APIs REST", lessonIds: ["pyfs_api_intro", "pyfs_endpoints", "pyfs_jwt", "pyfs_testing"] },
+      { title: "Despliegue y Producción", lessonIds: ["pyfs_production", "pyfs_docker", "pyfs_deploy", "pyfs_monitoring"] },
+    ] as CourseModule[],
+    lessons: [
+      { id: "pyfs_intro", label: "Introducción a Python y configuración" },
+      { id: "pyfs_variables", label: "Variables, tipos de datos y operadores" },
+      { id: "pyfs_control", label: "Estructuras de control" },
+      { id: "pyfs_functions", label: "Funciones y módulos" },
+      { id: "pyfs_flask_intro", label: "Introducción a Flask" },
+      { id: "pyfs_routes", label: "Rutas y templates" },
+      { id: "pyfs_forms", label: "Formularios y manejo de datos" },
+      { id: "pyfs_auth", label: "Sesiones y autenticación" },
+      { id: "pyfs_db_intro", label: "Fundamentos de bases de datos" },
+      { id: "pyfs_sqlalchemy", label: "SQLite y SQLAlchemy" },
+      { id: "pyfs_crud", label: "CRUD operations" },
+      { id: "pyfs_relations", label: "Relaciones entre tablas" },
+      { id: "pyfs_html_css", label: "HTML5 y CSS3 responsive" },
+      { id: "pyfs_js", label: "JavaScript fundamentals" },
+      { id: "pyfs_bootstrap", label: "Bootstrap y componentes UI" },
+      { id: "pyfs_integration", label: "Integración frontend-backend" },
+      { id: "pyfs_api_intro", label: "Conceptos de APIs y REST" },
+      { id: "pyfs_endpoints", label: "Creando endpoints" },
+      { id: "pyfs_jwt", label: "Autenticación con JWT" },
+      { id: "pyfs_testing", label: "Testing y documentación" },
+      { id: "pyfs_production", label: "Configuración de producción" },
+      { id: "pyfs_docker", label: "Docker básico" },
+      { id: "pyfs_deploy", label: "Despliegue en la nube" },
+      { id: "pyfs_monitoring", label: "Monitoreo y mantenimiento" },
+    ],
+  },
 } as const;
 
 export const lessons: Record<
@@ -421,5 +466,131 @@ export const lessons: Record<
     title: "Fondo de emergencia",
     video: "https://www.youtube.com/embed/mT3Hf2Nmmlw?start=1500",
     content: "Cuánto ahorrar y dónde guardarlo.",
+  },
+  // Python Full Stack - Core Python (Mosh Hamedani)
+  pyfs_intro: {
+    title: "Introducción a Python y configuración",
+    video: "https://www.youtube.com/embed/_uQrJ0TkZlc?start=0",
+    content: "Qué es Python, instalación y primer programa. Configuración del entorno de desarrollo.",
+  },
+  pyfs_variables: {
+    title: "Variables, tipos de datos y operadores",
+    video: "https://www.youtube.com/embed/_uQrJ0TkZlc?start=900",
+    content: "Variables, números, strings, booleanos y operadores aritméticos y de comparación.",
+  },
+  pyfs_control: {
+    title: "Estructuras de control",
+    video: "https://www.youtube.com/embed/_uQrJ0TkZlc?start=1800",
+    content: "Condicionales if/else, bucles for y while, control de flujo.",
+  },
+  pyfs_functions: {
+    title: "Funciones y módulos",
+    video: "https://www.youtube.com/embed/_uQrJ0TkZlc?start=2700",
+    content: "Definir funciones, parámetros, retorno, importar módulos y organizar código.",
+  },
+  // Flask - Corey Schafer Flask tutorials
+  pyfs_flask_intro: {
+    title: "Introducción a Flask",
+    video: "https://www.youtube.com/embed/mwltHaWc9H8?start=0",
+    content: "Qué es Flask, conceptos web basics, instalar Flask y crear primera app.",
+  },
+  pyfs_routes: {
+    title: "Rutas y templates",
+    video: "https://www.youtube.com/embed/mwltHaWc9H8?start=600",
+    content: "Definir rutas, renderizar templates HTML, pasar variables a templates.",
+  },
+  pyfs_forms: {
+    title: "Formularios y manejo de datos",
+    video: "https://www.youtube.com/embed/mwltHaWc9H8?start=1200",
+    content: "Crear formularios HTML, procesar datos POST, validación básica.",
+  },
+  pyfs_auth: {
+    title: "Sesiones y autenticación",
+    video: "https://www.youtube.com/embed/mwltHaWc9H8?start=1800",
+    content: "Gestionar sesiones de usuario, login/logout, proteger rutas.",
+  },
+  // Database - Mike Kennedy SQLAlchemy
+  pyfs_db_intro: {
+    title: "Fundamentos de bases de datos",
+    video: "https://www.youtube.com/embed/FR4QIeZaPeM?start=0",
+    content: "Qué es una base de datos relacional, conceptos SQL básicos, normalización.",
+  },
+  pyfs_sqlalchemy: {
+    title: "SQLite y SQLAlchemy",
+    video: "https://www.youtube.com/embed/FR4QIeZaPeM?start=500",
+    content: "Instalar SQLAlchemy, definir modelos, conectar SQLite, crear tablas.",
+  },
+  pyfs_crud: {
+    title: "CRUD operations",
+    video: "https://www.youtube.com/embed/FR4QIeZaPeM?start=1000",
+    content: "Create, Read, Update, Delete. Operaciones básicas con SQLAlchemy.",
+  },
+  pyfs_relations: {
+    title: "Relaciones entre tablas",
+    video: "https://www.youtube.com/embed/FR4QIeZaPeM?start=1500",
+    content: "One-to-many, many-to-many, foreign keys, joins.",
+  },
+  // Frontend - Traversy Media HTML/CSS/JS crash course
+  pyfs_html_css: {
+    title: "HTML5 y CSS3 responsive",
+    video: "https://www.youtube.com/embed/mU6anWqZJcc?start=0",
+    content: "Estructura HTML5, estilos CSS3, media queries, diseño responsive.",
+  },
+  pyfs_js: {
+    title: "JavaScript fundamentals",
+    video: "https://www.youtube.com/embed/mU6anWqZJcc?start=1800",
+    content: "Variables, funciones, DOM manipulation, event listeners en JavaScript.",
+  },
+  pyfs_bootstrap: {
+    title: "Bootstrap y componentes UI",
+    video: "https://www.youtube.com/embed/mU6anWqZJcc?start=3600",
+    content: "Integrar Bootstrap, grid system, componentes, personalización.",
+  },
+  pyfs_integration: {
+    title: "Integración frontend-backend",
+    video: "https://www.youtube.com/embed/mU6anWqZJcc?start=5400",
+    content: "Conectar frontend con Flask APIs, fetch API, JSON data.",
+  },
+  // REST APIs - freeCodeCamp REST API course
+  pyfs_api_intro: {
+    title: "Conceptos de APIs y REST",
+    video: "https://www.youtube.com/embed/-MTSQjI5dFU?start=0",
+    content: "Qué es una API, principios REST, HTTP methods, status codes.",
+  },
+  pyfs_endpoints: {
+    title: "Creando endpoints",
+    video: "https://www.youtube.com/embed/-MTSQjI5dFU?start=600",
+    content: "Construir endpoints RESTful con Flask-RESTful, serialización.",
+  },
+  pyfs_jwt: {
+    title: "Autenticación con JWT",
+    video: "https://www.youtube.com/embed/-MTSQjI5dFU?start=1200",
+    content: "JSON Web Tokens, login seguro, proteger APIs, middleware.",
+  },
+  pyfs_testing: {
+    title: "Testing y documentación",
+    video: "https://www.youtube.com/embed/-MTSQjI5dFU?start=1800",
+    content: "Unit tests, integration tests, Postman, Swagger documentation.",
+  },
+  // Deployment - freeCodeCamp Docker and deployment
+  pyfs_production: {
+    title: "Configuración de producción",
+    video: "https://www.youtube.com/embed/9zUHQgHYv48?start=0",
+    content: "Environment variables, logging, error handling, performance.",
+  },
+  pyfs_docker: {
+    title: "Docker básico",
+    video: "https://www.youtube.com/embed/9zUHQgHYv48?start=600",
+    content: "Crear Dockerfile, construir imágenes, docker-compose.",
+  },
+  pyfs_deploy: {
+    title: "Despliegue en la nube",
+    video: "https://www.youtube.com/embed/9zUHQgHYv48?start=1200",
+    content: "Heroku, Vercel, AWS basics, CI/CD pipeline.",
+  },
+  pyfs_monitoring: {
+    title: "Monitoreo y mantenimiento",
+    video: "https://www.youtube.com/embed/9zUHQgHYv48?start=1800",
+    content: "Monitoring, logging, backups, scaling basics.",
   },
 };
