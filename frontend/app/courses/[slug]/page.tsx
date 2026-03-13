@@ -5,11 +5,12 @@ import { courses } from "@/lib/courses";
 import GenericCourseContent from "@/components/GenericCourseContent";
 
 interface CoursePageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 export async function generateMetadata({ params }: CoursePageProps): Promise<Metadata> {
-  const course = courses[params.slug as keyof typeof courses];
+  const { slug } = await params;
+  const course = courses[slug as keyof typeof courses];
   
   if (!course) {
     return {
@@ -31,20 +32,22 @@ export async function generateStaticParams() {
   }));
 }
 
-export default function CoursePage({ params }: CoursePageProps) {
-  const course = courses[params.slug as keyof typeof courses];
+export default async function CoursePage({ params }: CoursePageProps) {
+  const { slug } = await params;
+  const course = courses[slug as keyof typeof courses];
 
   if (!course) {
     return (
-      <main className="min-h-screen text-white py-10 px-4 md:px-10">
-        <div className="max-w-6xl mx-auto text-center">
+      <main className="min-h-screen bg-[#0f172a] text-white py-10 px-4 md:px-10">
+        <div className="max-w-6xl mx-auto text-center mt-20">
+          <div className="text-6xl mb-6">😕</div>
           <h1 className="text-4xl font-bold mb-4">Curso no encontrado</h1>
-          <p className="text-xl text-gray-400 mb-8">
+          <p className="text-xl text-[#94a3b8] mb-8">
             El curso que buscas no existe o ha sido eliminado.
           </p>
           <Link 
             href="/courses" 
-            className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            className="inline-flex items-center px-6 py-3 bg-[#6366f1] text-white rounded-lg hover:bg-[#4f46e5] transition-colors"
           >
             ← Volver a Cursos
           </Link>
@@ -102,7 +105,7 @@ export default function CoursePage({ params }: CoursePageProps) {
         </div>
 
         <Suspense fallback={<div className="text-center py-8">Cargando contenido del curso...</div>}>
-          <GenericCourseContent courseId={params.slug} />
+          <GenericCourseContent courseId={slug} />
         </Suspense>
       </div>
     </main>
