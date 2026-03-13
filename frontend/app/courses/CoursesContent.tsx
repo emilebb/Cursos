@@ -47,8 +47,16 @@ function CourseCard({ course }: { course: CourseListItem }) {
            <img src={`/${course.thumbnail}`} alt={course.title} className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition" />
         </div>
       ) : (
-        <div className="h-32 flex items-center justify-center bg-gradient-to-br from-[#1e3a5f] to-[#0f172a] text-5xl">
-          {EMOJI_BY_SLUG[course.id] ?? "📚"}
+        <div className="h-32 w-full flex flex-col items-center justify-center bg-gradient-to-br from-[#334155] to-[#0f172a] border-b border-white/5 relative overflow-hidden">
+          {/* Decorative pattern for placeholder */}
+          <div className="absolute inset-0 opacity-20" style={{ backgroundImage: "repeating-linear-gradient(45deg, #1e293b 0, #1e293b 2px, transparent 2px, transparent 8px)" }}></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a]/50 to-transparent"></div>
+          <span className="text-4xl relative z-10 opacity-80 drop-shadow-md">
+            {EMOJI_BY_SLUG[course.id] ?? "�"}
+          </span>
+          <span className="text-[10px] text-[#94a3b8] uppercase tracking-widest mt-2 font-semibold relative z-10 bg-[#0f172a]/50 px-2 py-0.5 rounded">
+            Curso Disponible
+          </span>
         </div>
       )}
       {/* Info */}

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 
 export default function Navbar() {
@@ -33,6 +33,17 @@ export default function Navbar() {
     if (search.trim()) router.push(`/courses?q=${encodeURIComponent(search.trim())}`);
   }
 
+  const pathname = usePathname();
+
+  const links = [
+    { name: "Inicio", href: "/" },
+    { name: "Cursos", href: "/courses" },
+    { name: "Dashboard", href: "/dashboard" },
+    { name: "Blog", href: "/blog" },
+    { name: "FAQ", href: "/faq" },
+    { name: "Contacto", href: "/contacto" },
+  ];
+
   return (
     <nav className="w-full bg-[#0f172a] border-b border-white/10 flex items-center justify-between px-6 md:px-12 py-4 text-white">
       <Link href="/" className="text-xl font-bold text-white hover:text-[#a5b4fc] transition">
@@ -40,36 +51,21 @@ export default function Navbar() {
       </Link>
 
       <ul className="hidden md:flex gap-6 list-none m-0 p-0 text-sm">
-        <li>
-          <Link href="/" className="text-[#e2e8f0] hover:text-white no-underline transition">
-            Inicio
-          </Link>
-        </li>
-        <li>
-          <Link href="/courses" className="text-[#e2e8f0] hover:text-white no-underline transition">
-            Cursos
-          </Link>
-        </li>
-        <li>
-          <Link href="/dashboard" className="text-[#e2e8f0] hover:text-white no-underline transition">
-            Dashboard
-          </Link>
-        </li>
-        <li>
-          <Link href="/blog" className="text-[#e2e8f0] hover:text-white no-underline transition">
-            Blog
-          </Link>
-        </li>
-        <li>
-          <Link href="/faq" className="text-[#e2e8f0] hover:text-white no-underline transition">
-            FAQ
-          </Link>
-        </li>
-        <li>
-          <Link href="/contacto" className="text-[#e2e8f0] hover:text-white no-underline transition">
-            Contacto
-          </Link>
-        </li>
+        {links.map((link) => {
+          const isActive = pathname === link.href || (link.href !== "/" && pathname?.startsWith(link.href));
+          return (
+            <li key={link.href}>
+              <Link
+                href={link.href}
+                className={`no-underline transition font-medium ${
+                  isActive ? "text-[#6366f1] active" : "text-[#e2e8f0] hover:text-white"
+                }`}
+              >
+                {link.name}
+              </Link>
+            </li>
+          );
+        })}
       </ul>
 
       <form onSubmit={handleSearch} className="hidden sm:block flex-1 max-w-xs mx-4">
