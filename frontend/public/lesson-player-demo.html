@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reproductor de Lecciones - Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0f172a;
+            color: #fff;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            margin-bottom: 2rem;
+        }
+
+        .course-container {
+            background: #1e293b;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .course-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .lesson-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .lesson-item:hover {
+            border-color: rgba(99, 102, 241, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .lesson-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex: 1;
+        }
+
+        .status-circle {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #475569;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .status-circle.completed {
+            background: #10b981;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .check-icon {
+            width: 16px;
+            height: 16px;
+            color: white;
+        }
+
+        .lesson-info h4 {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .lesson-info p {
+            font-size: 0.875rem;
+            color: #94a3b8;
+        }
+
+        .start-button {
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            transform: scale(1);
+        }
+
+        .start-button:hover {
+            background: linear-gradient(135deg, #7c3aed 0%, #6366f1 100%);
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+        }
+
+        .start-button:active {
+            transform: scale(0.98);
+        }
+
+        .start-button.completed {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #0f172a;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .close-button {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .close-button:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            background: #000;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .modal-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .completion-status {
+            font-size: 0.875rem;
+            color: #94a3b8;
+        }
+
+        .completion-status.completed {
+            color: #10b981;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .complete-button {
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            transform: scale(1);
+        }
+
+        .complete-button:hover {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .complete-button:disabled {
+            background: #475569;
+            color: #94a3b8;
+            cursor: not-allowed;
+            transform: scale(1);
+        }
+
+        .complete-button.loading {
+            background: #6b7280;
+            cursor: not-allowed;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .features {
+            background: #1e293b;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+        }
+
+        .features h3 {
+            color: #10b981;
+            margin-bottom: 1rem;
+        }
+
+        .features ul {
+            list-style: none;
+        }
+
+        .features li {
+            padding: 0.5rem 0;
+            color: #cbd5e1;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .features li::before {
+            content: "•";
+            color: #10b981;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Reproductor de Lecciones</h1>
+        <p class="subtitle">Demo interactivo con modal de video y sistema de progreso</p>
+
+        <div class="course-container">
+            <h2 class="course-title">Curso: JavaScript Básico</h2>
+            <div id="lessons-container">
+                <!-- Las lecciones se generarán con JavaScript -->
+            </div>
+        </div>
+
+        <div class="features">
+            <h3>✅ Características Implementadas:</h3>
+            <ul>
+                <li>Modal oscuro con backdrop blur</li>
+                <li>Video responsivo de YouTube/Vimeo</li>
+                <li>Botón "Marcar como completado" con efectos hover</li>
+                <li>Sistema de progreso persistente (localStorage)</li>
+                <li>Círculo gris → check verde al completar</li>
+                <li>Diseño minimalista con colores oscuros</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="video-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title" class="modal-title">Título de la Lección</h3>
+                <button class="close-button" onclick="closeModal()">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="video-container">
+                <iframe id="video-frame" src="" title="Video de la lección" allowfullscreen></iframe>
+            </div>
+            
+            <div class="modal-footer">
+                <div id="completion-status" class="completion-status">
+                    Marca esta lección como completada cuando termines
+                </div>
+                <button id="complete-button" class="complete-button" onclick="markAsCompleted()">
+                    Marcar como completado
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Datos de las lecciones
+        const lessons = [
+            {
+                id: 'lesson-1',
+                title: 'Introducción a JavaScript',
+                videoUrl: 'https://www.youtube.com/watch?v=W6NZfCO5SIk',
+                isCompleted: false
+            },
+            {
+                id: 'lesson-2',
+                title: 'Variables y Tipos de Datos',
+                videoUrl: 'https://www.youtube.com/watch?v=W6NZfCO5SIk',
+                isCompleted: false
+            },
+            {
+                id: 'lesson-3',
+                title: 'Funciones y Alcance',
+                videoUrl: 'https://www.youtube.com/watch?v=W6NZfCO5SIk',
+                isCompleted: false
+            },
+            {
+                id: 'lesson-4',
+                title: 'Arrays y Objetos',
+                videoUrl: 'https://www.youtube.com/watch?v=W6NZfCO5SIk',
+                isCompleted: false
+            }
+        ];
+
+        let currentLesson = null;
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCompletionStatus();
+            renderLessons();
+        });
+
+        // Cargar estado de completación desde localStorage
+        function loadCompletionStatus() {
+            lessons.forEach(lesson => {
+                const savedStatus = localStorage.getItem(`lesson-${lesson.id}`);
+                if (savedStatus === 'completed') {
+                    lesson.isCompleted = true;
+                }
+            });
+        }
+
+        // Renderizar las lecciones
+        function renderLessons() {
+            const container = document.getElementById('lessons-container');
+            container.innerHTML = lessons.map(lesson => `
+                <div class="lesson-item">
+                    <div class="lesson-content">
+                        <div class="status-circle ${lesson.isCompleted ? 'completed' : ''}">
+                            ${lesson.isCompleted ? 
+                                '<svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>' : 
+                                ''
+                            }
+                        </div>
+                        <div class="lesson-info">
+                            <h4>${lesson.title}</h4>
+                            <p>Video • 45-90 min</p>
+                        </div>
+                    </div>
+                    <button class="start-button ${lesson.isCompleted ? 'completed' : ''}" onclick="openModal('${lesson.id}')">
+                        ${lesson.isCompleted ? 'Repasar' : 'Comenzar'}
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // Obtener URL de embed para video
+        function getVideoEmbedUrl(url) {
+            // YouTube
+            if (url.includes('youtube.com') || url.includes('youtu.be')) {
+                const videoId = url.includes('youtu.be') 
+                    ? url.split('youtu.be/')[1]?.split('?')[0]
+                    : url.split('v=')[1]?.split('&')[0];
+                return `https://www.youtube.com/embed/${videoId}`;
+            }
+            
+            // Vimeo
+            if (url.includes('vimeo.com')) {
+                const videoId = url.split('vimeo.com/')[1]?.split('?')[0];
+                return `https://player.vimeo.com/video/${videoId}`;
+            }
+            
+            return url;
+        }
+
+        // Abrir modal
+        function openModal(lessonId) {
+            currentLesson = lessons.find(l => l.id === lessonId);
+            if (!currentLesson) return;
+
+            const modal = document.getElementById('video-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const videoFrame = document.getElementById('video-frame');
+            const completeButton = document.getElementById('complete-button');
+            const completionStatus = document.getElementById('completion-status');
+
+            modalTitle.textContent = currentLesson.title;
+            videoFrame.src = getVideoEmbedUrl(currentLesson.videoUrl);
+
+            // Actualizar estado del botón de completado
+            if (currentLesson.isCompleted) {
+                completeButton.disabled = true;
+                completeButton.textContent = 'Completado';
+                completeButton.className = 'complete-button disabled';
+                completionStatus.innerHTML = `
+                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Lección completada
+                `;
+                completionStatus.className = 'completion-status completed';
+            } else {
+                completeButton.disabled = false;
+                completeButton.textContent = 'Marcar como completado';
+                completeButton.className = 'complete-button';
+                completionStatus.textContent = 'Marca esta lección como completada cuando termines';
+                completionStatus.className = 'completion-status';
+            }
+
+            modal.classList.add('active');
+        }
+
+        // Cerrar modal
+        function closeModal() {
+            const modal = document.getElementById('video-modal');
+            const videoFrame = document.getElementById('video-frame');
+            
+            modal.classList.remove('active');
+            videoFrame.src = '';
+        }
+
+        // Marcar como completado
+        async function markAsCompleted() {
+            if (!currentLesson || currentLesson.isCompleted) return;
+
+            const completeButton = document.getElementById('complete-button');
+            const completionStatus = document.getElementById('completion-status');
+
+            // Mostrar estado de carga
+            completeButton.disabled = true;
+            completeButton.innerHTML = '<span class="spinner"></span> Marcando...';
+            completeButton.className = 'complete-button loading';
+
+            // Simular llamada a API
+            await new Promise(resolve => setTimeout(resolve, 1500));
+
+            // Actualizar estado
+            currentLesson.isCompleted = true;
+            localStorage.setItem(`lesson-${currentLesson.id}`, 'completed');
+
+            // Actualizar UI
+            completeButton.innerHTML = `
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                Completado
+            `;
+            completeButton.className = 'complete-button disabled';
+            
+            completionStatus.innerHTML = `
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                Lección completada
+            `;
+            completionStatus.className = 'completion-status completed';
+
+            // Renderizar lecciones actualizadas
+            renderLessons();
+
+            // Cerrar modal después de un breve delay
+            setTimeout(() => {
+                closeModal();
+            }, 1000);
+        }
+
+        // Cerrar modal con tecla Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Cerrar modal al hacer clic fuera del contenido
+        document.getElementById('video-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

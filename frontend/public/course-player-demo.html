@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Completo de Curso - Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0f172a;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header Styles */
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .header p {
+            font-size: 1.25rem;
+            color: #94a3b8;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Progress Bar Styles */
+        .progress-container {
+            background: #1e293b;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .progress-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #e2e8f0;
+        }
+
+        .progress-percentage {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #374151;
+            border-radius: 100px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #6366f1 0%, #8b5cf6 100%);
+            border-radius: 100px;
+            transition: width 1s ease-out;
+            position: relative;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .progress-milestones {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+        }
+
+        .milestone {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #4b5563;
+            transition: all 0.3s ease;
+        }
+
+        .milestone.active {
+            background: #6366f1;
+            box-shadow: 0 0 8px rgba(99, 102, 241, 0.5);
+        }
+
+        .milestone.completed {
+            background: #10b981;
+            box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
+        }
+
+        /* Module Styles */
+        .module {
+            background: #1e293b;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .module-header {
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            user-select: none;
+        }
+
+        .module-header:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .module-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .module-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .module-number {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.25rem;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .module-number.completed {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .module-details h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: #fff;
+        }
+
+        .module-details p {
+            color: #94a3b8;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .module-stats {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+
+        .module-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .module-progress {
+            text-align: right;
+        }
+
+        .module-progress-percentage {
+            font-weight: 600;
+            color: #6366f1;
+            font-size: 0.875rem;
+        }
+
+        .module-progress-bar {
+            width: 80px;
+            height: 6px;
+            background: #374151;
+            border-radius: 100px;
+            margin-top: 0.25rem;
+            overflow: hidden;
+        }
+
+        .module-progress-fill {
+            height: 100%;
+            background: #6366f1;
+            border-radius: 100px;
+            transition: width 0.5s ease;
+        }
+
+        .module-toggle {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            transition: all 0.3s ease;
+        }
+
+        .module-toggle.rotated {
+            transform: rotate(180deg);
+        }
+
+        .module-content {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: none;
+        }
+
+        .module-content.expanded {
+            display: block;
+        }
+
+        .lessons-container {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        /* Lesson Styles */
+        .lesson {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .lesson:hover {
+            border-color: rgba(99, 102, 241, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .lesson-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .lesson-status {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #4b5563;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .lesson-status.completed {
+            background: #10b981;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .lesson-check {
+            width: 14px;
+            height: 14px;
+            color: white;
+        }
+
+        .lesson-info h4 {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+            color: #fff;
+        }
+
+        .lesson-info p {
+            font-size: 0.875rem;
+            color: #94a3b8;
+        }
+
+        .lesson-button {
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            transform: scale(1);
+        }
+
+        .lesson-button:hover {
+            background: linear-gradient(135deg, #7c3aed 0%, #6366f1 100%);
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+        }
+
+        .lesson-button:active {
+            transform: scale(0.98);
+        }
+
+        .lesson-button.completed {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #0f172a;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .close-button {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .close-button:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            background: #000;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .modal-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .complete-button {
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            transform: scale(1);
+        }
+
+        .complete-button:hover {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .complete-button:disabled {
+            background: #4b5563;
+            color: #94a3b8;
+            cursor: not-allowed;
+            transform: scale(1);
+        }
+
+        /* Certificate Section */
+        .certificate-section {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            display: none;
+        }
+
+        .certificate-section.show {
+            display: block;
+        }
+
+        .certificate-content {
+            text-align: center;
+        }
+
+        .certificate-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 0 30px rgba(16, 185, 129, 0.3);
+        }
+
+        .certificate-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #10b981;
+            margin-bottom: 0.5rem;
+        }
+
+        .certificate-subtitle {
+            color: #94a3b8;
+            margin-bottom: 2rem;
+        }
+
+        .certificate-button {
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.125rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            transform: scale(1);
+        }
+
+        .certificate-button:hover {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(16, 185, 129, 0.4);
+        }
+
+        /* Stats Section */
+        .stats-section {
+            background: #1e293b;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .stats-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #fff;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: #94a3b8;
+        }
+
+        .stat-value.blue { color: #6366f1; }
+        .stat-value.purple { color: #8b5cf6; }
+        .stat-value.green { color: #10b981; }
+        .stat-value.orange { color: #f97316; }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .header p {
+                font-size: 1rem;
+            }
+
+            .module-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .module-right {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Motivational Messages */
+        .motivational-message {
+            text-align: center;
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .motivational-message.start {
+            background: rgba(99, 102, 241, 0.1);
+            color: #6366f1;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .motivational-message.half {
+            background: rgba(139, 92, 246, 0.1);
+            color: #8b5cf6;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .motivational-message.almost {
+            background: rgba(249, 115, 22, 0.1);
+            color: #f97316;
+            border: 1px solid rgba(249, 115, 22, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>JavaScript Básico</h1>
+            <p>De Cero a Desarrollador Web - Aprende JavaScript desde los fundamentos hasta crear aplicaciones interactivas</p>
+        </header>
+
+        <!-- Progress Section -->
+        <section class="progress-container">
+            <div class="progress-header">
+                <h2 class="progress-title">Progreso del Curso</h2>
+                <div class="progress-percentage" id="overall-percentage">0%</div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="overall-progress" style="width: 0%"></div>
+            </div>
+            <div class="progress-milestones">
+                <div class="milestone" data-milestone="0"></div>
+                <div class="milestone" data-milestone="25"></div>
+                <div class="milestone" data-milestone="50"></div>
+                <div class="milestone" data-milestone="75"></div>
+                <div class="milestone" data-milestone="100"></div>
+            </div>
+            <div class="motivational-message" id="motivational-message" style="display: none;"></div>
+        </section>
+
+        <!-- Certificate Section -->
+        <section class="certificate-section" id="certificate-section">
+            <div class="certificate-content">
+                <div class="certificate-icon">
+                    <svg width="40" height="40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <h2 class="certificate-title">¡Curso Completado!</h2>
+                <p class="certificate-subtitle">Has completado todas las lecciones. Ahora puedes generar tu certificado.</p>
+                <button class="certificate-button" onclick="downloadCertificate()">
+                    Generar Certificado 🏆
+                </button>
+            </div>
+        </section>
+
+        <!-- Course Modules -->
+        <main id="course-modules">
+            <!-- Los módulos se generarán dinámicamente -->
+        </main>
+
+        <!-- Stats Section -->
+        <section class="stats-section">
+            <h2 class="stats-title">Estadísticas del Curso</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-value blue" id="total-modules">0</div>
+                    <div class="stat-label">Módulos</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value purple" id="total-lessons">0</div>
+                    <div class="stat-label">Lecciones</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value green" id="completed-lessons">0</div>
+                    <div class="stat-label">Completadas</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value orange" id="remaining-lessons">0</div>
+                    <div class="stat-label">Restantes</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Video Modal -->
+    <div id="video-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title" class="modal-title">Título de la Lección</h3>
+                <button class="close-button" onclick="closeModal()">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="video-container">
+                <iframe id="video-frame" src="" title="Video de la lección" allowfullscreen></iframe>
+            </div>
+            
+            <div class="modal-footer">
+                <div id="completion-status">Marca esta lección como completada cuando termines</div>
+                <button id="complete-button" class="complete-button" onclick="markAsCompleted()">
+                    Marcar como completado
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Datos del curso
+        const courseData = {
+            courseId: "javascript-basico",
+            modules: [
+                {
+                    id: "module-1",
+                    title: "Módulo 1: Fundamentos de JavaScript",
+                    description: "Aprende los conceptos básicos y la sintaxis de JavaScript",
+                    lessons: [
+                        { id: "lesson-1", title: "Introducción a JavaScript", videoUrl: "https://www.youtube.com/watch?v=W6NZfCO5SIk" },
+                        { id: "lesson-2", title: "Variables y Tipos de Datos", videoUrl: "https://www.youtube.com/watch?v=W6NZfCO5SIk" },
+                        { id: "lesson-3", title: "Operadores y Expresiones", videoUrl: "https://www.youtube.com/watch?v=W6NZfCO5SIk" }
+                    ]
+                },
+                {
+                    id: "module-2",
+                    title: "Módulo 2: Estructuras de Control",
+                    description: "Domina el flujo de ejecución y toma de decisiones",
+                    lessons: [
+                        { id: "lesson-4", title: "Condicionales: if, else, switch", videoUrl: "https://www.youtube.com/watch?v=W6NZfCO5SIk" },
+                        { id: "lesson-5", title: "Bucles: for, while, do-while", videoUrl: "https://www.youtube.com/watch?v=W6NZfCO5SIk" },
+                        { id: "lesson-6", title: "Manejo de Errores: try-catch", videoUrl: "https://www.youtube.com/watch?v=W6NZfCO5SIk" }
+                    ]
+                },
+                {
+                    id: "module-3",
+                    title: "Módulo 3: Funciones y Alcance",
+                    description: "Aprende a crear código reutilizable y modular",
+                    lessons: [
+                        { id: "lesson-7", title: "Declaración de Funciones", videoUrl: "https://www.youtube.com/watch?v=W6NZfCO5SIk" },
+                        { id: "lesson-8", title: "Funciones Flecha y Expresiones", videoUrl: "https://www.youtube.com/watch?v=W6NZfCO5SIk" },
+                        { id: "lesson-9", title: "Alcance y Closures", videoUrl: "https://www.youtube.com/watch?v=W6NZfCO5SIk" }
+                    ]
+                },
+                {
+                    id: "module-4",
+                    title: "Módulo 4: Arrays y Objetos",
+                    description: "Trabaja con estructuras de datos complejas",
+                    lessons: [
+                        { id: "lesson-10", title: "Arrays: Métodos y Manipulación", videoUrl: "https://www.youtube.com/watch?v=W6NZfCO5SIk" },
+                        { id: "lesson-11", title: "Objetos y Propiedades", videoUrl: "https://www.youtube.com/watch?v=W6NZfCO5SIk" },
+                        { id: "lesson-12", title: "Destructuring y Spread Operator", videoUrl: "https://www.youtube.com/watch?v=W6NZfCO5SIk" }
+                    ]
+                }
+            ]
+        };
+
+        let currentLesson = null;
+        let expandedModules = new Set();
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', function() {
+            renderCourse();
+            loadProgress();
+            updateStats();
+        });
+
+        // Renderizar el curso
+        function renderCourse() {
+            const container = document.getElementById('course-modules');
+            container.innerHTML = courseData.modules.map((module, moduleIndex) => `
+                <div class="module" id="module-${module.id}">
+                    <div class="module-header" onclick="toggleModule('${module.id}')">
+                        <div class="module-info">
+                            <div class="module-left">
+                                <div class="module-number" id="module-number-${module.id}">
+                                    ${moduleIndex + 1}
+                                </div>
+                                <div class="module-details">
+                                    <h3>${module.title}</h3>
+                                    <p>${module.description}</p>
+                                    <div class="module-stats">
+                                        <span>${module.lessons.length} lecciones</span>
+                                        <span id="module-progress-${module.id}">0/${module.lessons.length} completadas</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="module-right">
+                                <div class="module-progress">
+                                    <div class="module-progress-percentage" id="module-percentage-${module.id}">0%</div>
+                                    <div class="module-progress-bar">
+                                        <div class="module-progress-fill" id="module-progress-fill-${module.id}"></div>
+                                    </div>
+                                </div>
+                                <div class="module-toggle" id="module-toggle-${module.id}">
+                                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="module-content" id="module-content-${module.id}">
+                        <div class="lessons-container">
+                            ${module.lessons.map(lesson => `
+                                <div class="lesson">
+                                    <div class="lesson-left">
+                                        <div class="lesson-status" id="lesson-status-${lesson.id}">
+                                            <!-- Check icon se agregará dinámicamente -->
+                                        </div>
+                                        <div class="lesson-info">
+                                            <h4>${lesson.title}</h4>
+                                            <p>Video • 45-90 min</p>
+                                        </div>
+                                    </div>
+                                    <button class="lesson-button" id="lesson-button-${lesson.id}" onclick="openModal('${lesson.id}', '${lesson.title}', '${lesson.videoUrl}')">
+                                        Comenzar
+                                    </button>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Toggle módulo
+        function toggleModule(moduleId) {
+            const content = document.getElementById(`module-content-${moduleId}`);
+            const toggle = document.getElementById(`module-toggle-${moduleId}`);
+            
+            if (expandedModules.has(moduleId)) {
+                expandedModules.delete(moduleId);
+                content.classList.remove('expanded');
+                toggle.classList.remove('rotated');
+            } else {
+                expandedModules.add(moduleId);
+                content.classList.add('expanded');
+                toggle.classList.add('rotated');
+            }
+        }
+
+        // Cargar progreso
+        function loadProgress() {
+            let completedLessons = 0;
+            const totalLessons = courseData.modules.reduce((total, module) => total + module.lessons.length, 0);
+
+            courseData.modules.forEach(module => {
+                let moduleCompletedLessons = 0;
+                
+                module.lessons.forEach(lesson => {
+                    const isCompleted = localStorage.getItem(`lesson-${lesson.id}`) === 'completed';
+                    if (isCompleted) {
+                        completedLessons++;
+                        moduleCompletedLessons++;
+                        updateLessonUI(lesson.id, true);
+                    }
+                });
+
+                updateModuleProgress(module.id, moduleCompletedLessons, module.lessons.length);
+            });
+
+            const percentage = Math.round((completedLessons / totalLessons) * 100);
+            updateOverallProgress(percentage);
+            
+            if (percentage === 100) {
+                showCertificate();
+            }
+        }
+
+        // Actualizar UI de lección
+        function updateLessonUI(lessonId, isCompleted) {
+            const status = document.getElementById(`lesson-status-${lessonId}`);
+            const button = document.getElementById(`lesson-button-${lessonId}`);
+            
+            if (isCompleted) {
+                status.innerHTML = `
+                    <svg class="lesson-check" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                `;
+                status.classList.add('completed');
+                button.textContent = 'Repasar';
+                button.classList.add('completed');
+            }
+        }
+
+        // Actualizar progreso de módulo
+        function updateModuleProgress(moduleId, completed, total) {
+            const percentage = Math.round((completed / total) * 100);
+            const progressFill = document.getElementById(`module-progress-fill-${moduleId}`);
+            const progressText = document.getElementById(`module-percentage-${moduleId}`);
+            const progressStats = document.getElementById(`module-progress-${moduleId}`);
+            const moduleNumber = document.getElementById(`module-number-${moduleId}`);
+            
+            progressFill.style.width = `${percentage}%`;
+            progressText.textContent = `${percentage}%`;
+            progressStats.textContent = `${completed}/${total} completadas`;
+            
+            if (percentage === 100) {
+                moduleNumber.classList.add('completed');
+                moduleNumber.innerHTML = `
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                `;
+            }
+        }
+
+        // Actualizar progreso general
+        function updateOverallProgress(percentage) {
+            const progressBar = document.getElementById('overall-progress');
+            const percentageText = document.getElementById('overall-percentage');
+            const milestones = document.querySelectorAll('.milestone');
+            const motivationalMessage = document.getElementById('motivational-message');
+            
+            progressBar.style.width = `${percentage}%`;
+            percentageText.textContent = `${percentage}%`;
+            
+            // Actualizar milestones
+            milestones.forEach(milestone => {
+                const milestoneValue = parseInt(milestone.dataset.milestone);
+                if (percentage >= milestoneValue) {
+                    milestone.classList.add('active');
+                    if (milestoneValue === 100) {
+                        milestone.classList.add('completed');
+                    }
+                }
+            });
+            
+            // Mostrar mensaje motivacional
+            if (percentage > 0 && percentage < 100) {
+                motivationalMessage.style.display = 'block';
+                
+                if (percentage < 25) {
+                    motivationalMessage.className = 'motivational-message start';
+                    motivationalMessage.textContent = '¡Buen comienzo! Sigue así 🚀';
+                } else if (percentage < 50) {
+                    motivationalMessage.className = 'motivational-message start';
+                    motivationalMessage.textContent = 'Vas por buen camino, sigue adelante 💪';
+                } else if (percentage < 75) {
+                    motivationalMessage.className = 'motivational-message half';
+                    motivationalMessage.textContent = '¡Más de la mitad completado! 🎯';
+                } else {
+                    motivationalMessage.className = 'motivational-message almost';
+                    motivationalMessage.textContent = '¡Casi terminas! Último esfuerzo 🔥';
+                }
+            } else {
+                motivationalMessage.style.display = 'none';
+            }
+        }
+
+        // Actualizar estadísticas
+        function updateStats() {
+            const totalModules = courseData.modules.length;
+            const totalLessons = courseData.modules.reduce((total, module) => total + module.lessons.length, 0);
+            let completedLessons = 0;
+            
+            courseData.modules.forEach(module => {
+                module.lessons.forEach(lesson => {
+                    if (localStorage.getItem(`lesson-${lesson.id}`) === 'completed') {
+                        completedLessons++;
+                    }
+                });
+            });
+            
+            const remainingLessons = totalLessons - completedLessons;
+            
+            document.getElementById('total-modules').textContent = totalModules;
+            document.getElementById('total-lessons').textContent = totalLessons;
+            document.getElementById('completed-lessons').textContent = completedLessons;
+            document.getElementById('remaining-lessons').textContent = remainingLessons;
+        }
+
+        // Modal functions
+        function openModal(lessonId, title, videoUrl) {
+            currentLesson = { id: lessonId, title, videoUrl };
+            
+            const modal = document.getElementById('video-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const videoFrame = document.getElementById('video-frame');
+            const completeButton = document.getElementById('complete-button');
+            const completionStatus = document.getElementById('completion-status');
+            
+            modalTitle.textContent = title;
+            videoFrame.src = getVideoEmbedUrl(videoUrl);
+            
+            // Verificar si ya está completada
+            const isCompleted = localStorage.getItem(`lesson-${lessonId}`) === 'completed';
+            if (isCompleted) {
+                completeButton.disabled = true;
+                completeButton.textContent = 'Completado';
+                completionStatus.innerHTML = `
+                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Lección completada
+                `;
+                completionStatus.style.color = '#10b981';
+            } else {
+                completeButton.disabled = false;
+                completeButton.textContent = 'Marcar como completado';
+                completionStatus.textContent = 'Marca esta lección como completada cuando termines';
+                completionStatus.style.color = '#94a3b8';
+            }
+            
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('video-modal');
+            const videoFrame = document.getElementById('video-frame');
+            
+            modal.classList.remove('active');
+            videoFrame.src = '';
+        }
+
+        async function markAsCompleted() {
+            if (!currentLesson) return;
+            
+            const completeButton = document.getElementById('complete-button');
+            const completionStatus = document.getElementById('completion-status');
+            
+            // Mostrar estado de carga
+            completeButton.disabled = true;
+            completeButton.innerHTML = '<span class="loading"></span> Marcando...';
+            
+            // Simular llamada a API
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            
+            // Guardar en localStorage
+            localStorage.setItem(`lesson-${currentLesson.id}`, 'completed');
+            
+            // Actualizar UI
+            completeButton.innerHTML = `
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                Completado
+            `;
+            completionStatus.innerHTML = `
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                Lección completada
+            `;
+            completionStatus.style.color = '#10b981';
+            
+            // Recargar progreso
+            loadProgress();
+            updateStats();
+            
+            // Cerrar modal
+            setTimeout(() => {
+                closeModal();
+            }, 1000);
+        }
+
+        function getVideoEmbedUrl(url) {
+            // YouTube
+            if (url.includes('youtube.com') || url.includes('youtu.be')) {
+                const videoId = url.includes('youtu.be') 
+                    ? url.split('youtu.be/')[1]?.split('?')[0]
+                    : url.split('v=')[1]?.split('&')[0];
+                return `https://www.youtube.com/embed/${videoId}`;
+            }
+            
+            // Vimeo
+            if (url.includes('vimeo.com')) {
+                const videoId = url.split('vimeo.com/')[1]?.split('?')[0];
+                return `https://player.vimeo.com/video/${videoId}`;
+            }
+            
+            return url;
+        }
+
+        function showCertificate() {
+            const certificateSection = document.getElementById('certificate-section');
+            certificateSection.classList.add('show');
+        }
+
+        function downloadCertificate() {
+            alert('¡Certificado generado con éxito! (Esta es una simulación)');
+        }
+
+        // Event listeners
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        document.getElementById('video-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
