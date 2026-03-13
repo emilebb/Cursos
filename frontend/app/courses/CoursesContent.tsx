@@ -103,12 +103,18 @@ export default function CoursesContent() {
     return () => { mounted = false; };
   }, []);
 
+  const isSearching = search.trim() !== "" || category !== "Todos";
+
   const filtered = useMemo(() => {
     let list = [...allCourses];
+    
+    // 1. Filtrar por categoría
     const slugsInCategory = category === "Todos" ? null : CATEGORIES[category];
     if (slugsInCategory) {
       list = list.filter((c) => slugsInCategory.includes(c.id));
     }
+    
+    // 2. Filtrar por búsqueda
     if (search.trim()) {
       const q = search.trim().toLowerCase();
       list = list.filter(
@@ -116,11 +122,16 @@ export default function CoursesContent() {
           c.title.toLowerCase().includes(q) || c.description.toLowerCase().includes(q)
       );
     }
+    
+    // 3. Excluir cursos destacados de la cuadrícula general si no estamos buscando
+    if (!isSearching) {
+      const featuredSlugs = new Set([...POPULAR_SLUGS, ...NEW_SLUGS]);
+      list = list.filter((c) => !featuredSlugs.has(c.id));
+    }
+    
     return list;
-  }, [allCourses, search, category]);
+  }, [allCourses, search, category, isSearching]);
 
-  const isSearching = search.trim() !== "" || category !== "Todos";
-  
   if (isLoading) {
     return <div className="text-center py-20 text-[#94a3b8] animate-pulse">Cargando catálogo intergaláctico...</div>;
   }
