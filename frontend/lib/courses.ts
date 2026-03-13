@@ -9,41 +9,58 @@ export type CourseListItem = {
   thumbnail?: string;
 };
 
-/**
- * Priority:
- * 1. /cursos.json  (frontend/public/cursos.json — edit without touching code)
- * 2. Supabase      (if configured and table has rows)
- * 3. Local data    (hardcoded in this file — always available)
- */
 export async function getCourses(): Promise<CourseListItem[]> {
-  // 1️⃣ Try public/cursos.json (works in browser and during SSR via absolute URL)
+  // Base local courses
+  const localCoursesMap = new Map<string, CourseListItem>();
+  Object.entries(courses).forEach(([slug, c]) => {
+    localCoursesMap.set(slug, {
+      id: slug,
+      title: c.title,
+      description: c.description,
+    });
+  });
+
+  // Try to fetch from external sources to add/override
+  let externalCourses: CourseListItem[] = [];
+
   try {
     const baseUrl =
       typeof window !== "undefined"
-        ? ""                                    // browser: relative URL works
-        : process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000"; // SSR
+        ? ""
+        : process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
     const res = await fetch(`${baseUrl}/cursos.json`, { cache: "no-store" });
     if (res.ok) {
       const json = await res.json();
-      if (Array.isArray(json.courses) && json.courses.length > 0)
-        return json.courses as CourseListItem[];
+      if (Array.isArray(json.courses)) {
+        externalCourses = json.courses;
+      }
     }
   } catch {
-    // If fetch fails (e.g. build time), continue to next source
+    // Ignore fetch errors
   }
 
-  // 2️⃣ Try Supabase
-  if (supabase) {
-    const { data, error } = await supabase.from("courses").select("*");
-    if (!error && data && data.length > 0) return data as CourseListItem[];
+  if (externalCourses.length === 0 && supabase) {
+    try {
+      const { data, error } = await supabase.from("courses").select("*");
+      if (!error && data) {
+        externalCourses = data as CourseListItem[];
+      }
+    } catch {
+      // Ignore supabase errors
+    }
   }
 
-  // 3️⃣ Local hardcoded fallback
-  return Object.entries(courses).map(([slug, c]) => ({
-    id: slug,
-    title: c.title,
-    description: c.description,
-  }));
+  // Merge external courses into local courses map
+  externalCourses.forEach(course => {
+    if (course && course.id) {
+      localCoursesMap.set(course.id, {
+        ...localCoursesMap.get(course.id),
+        ...course,
+      });
+    }
+  });
+
+  return Array.from(localCoursesMap.values());
 }
 
 

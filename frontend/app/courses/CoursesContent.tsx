@@ -1,13 +1,13 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { courses } from "@/lib/courses";
+import { getCourses, CourseListItem } from "@/lib/courses";
 
 const CATEGORIES: Record<string, string[]> = {
   Todos: [],
-  Programación: ["javascript", "python_fullstack", "react"],
+  Programación: ["javascript", "python_fullstack", "react", "html", "css", "typescript", "node", "python"],
   IA: ["ai"],
   Marketing: ["marketing"],
   Productividad: ["excel"],
@@ -15,6 +15,8 @@ const CATEGORIES: Record<string, string[]> = {
   Diseño: ["ux"],
   Creativo: ["fotografia"],
   Finanzas: ["finanzas"],
+  Herramientas: ["github"],
+  "Bases de Datos": ["sql"],
 };
 
 const EMOJI_BY_SLUG: Record<string, string> = {
@@ -31,26 +33,30 @@ const EMOJI_BY_SLUG: Record<string, string> = {
 };
 
 const POPULAR_SLUGS = ["javascript", "python_fullstack", "react", "ai"];
-const NEW_SLUGS = ["ux", "fotografia", "finanzas", "ingles"];
+const NEW_SLUGS = ["ux", "fotografia", "finanzas", "ingles", "html", "css", "node", "typescript"];
 
-type CourseEntry = [string, (typeof courses)[keyof typeof courses]];
-
-function CourseCard({ slug, course }: { slug: string; course: CourseEntry[1] }) {
+function CourseCard({ course }: { course: CourseListItem }) {
   return (
     <Link
-      href={`/courses/${slug}`}
-      className="group flex-shrink-0 w-60 bg-[#1e293b] rounded-xl overflow-hidden border border-white/10 hover:border-[#6366f1]/60 hover:shadow-lg hover:shadow-[#6366f1]/10 transition-all duration-200 hover:-translate-y-1 no-underline"
+      href={`/courses/${course.id}`}
+      className="group flex-shrink-0 w-60 bg-[#1e293b] rounded-xl overflow-hidden border border-white/10 hover:border-[#6366f1]/60 hover:shadow-lg hover:shadow-[#6366f1]/10 transition-all duration-200 hover:-translate-y-1 no-underline flex flex-col"
     >
       {/* Thumbnail */}
-      <div className="h-32 flex items-center justify-center bg-gradient-to-br from-[#1e3a5f] to-[#0f172a] text-5xl">
-        {EMOJI_BY_SLUG[slug] ?? "📚"}
-      </div>
+      {course.thumbnail ? (
+        <div className="h-32 w-full overflow-hidden bg-[#0f172a]">
+           <img src={`/${course.thumbnail}`} alt={course.title} className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition" />
+        </div>
+      ) : (
+        <div className="h-32 flex items-center justify-center bg-gradient-to-br from-[#1e3a5f] to-[#0f172a] text-5xl">
+          {EMOJI_BY_SLUG[course.id] ?? "📚"}
+        </div>
+      )}
       {/* Info */}
-      <div className="p-4">
+      <div className="p-4 flex-1 flex flex-col">
         <h3 className="text-white font-semibold text-sm leading-snug mb-1 group-hover:text-[#a5b4fc] transition">
           {course.title}
         </h3>
-        <p className="text-[#64748b] text-xs leading-relaxed line-clamp-2">
+        <p className="text-[#64748b] text-xs leading-relaxed line-clamp-2 flex-1">
           {course.description}
         </p>
         <span className="mt-3 inline-block text-[#6366f1] text-xs font-medium">
@@ -61,15 +67,17 @@ function CourseCard({ slug, course }: { slug: string; course: CourseEntry[1] }) 
   );
 }
 
-function CourseRow({ slugs }: { slugs: string[] }) {
-  const entries = slugs
-    .map((s) => [s, courses[s as keyof typeof courses]] as CourseEntry)
-    .filter(([, c]) => !!c);
+function CourseRow({ slugs, allCourses }: { slugs: string[], allCourses: CourseListItem[] }) {
+  const rowCourses = slugs
+    .map((slug) => allCourses.find((c) => c.id === slug))
+    .filter((c): c is CourseListItem => !!c);
+
+  if (rowCourses.length === 0) return null;
 
   return (
     <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-[#334155] scrollbar-track-transparent">
-      {entries.map(([slug, course]) => (
-        <CourseCard key={slug} slug={slug} course={course} />
+      {rowCourses.map((course) => (
+        <CourseCard key={course.id} course={course} />
       ))}
     </div>
   );
@@ -80,24 +88,42 @@ export default function CoursesContent() {
   const initialQ = searchParams.get("q") ?? "";
   const [search, setSearch] = useState(initialQ);
   const [category, setCategory] = useState("Todos");
+  
+  const [allCourses, setAllCourses] = useState<CourseListItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    let mounted = true;
+    getCourses().then(data => {
+      if (mounted) {
+        setAllCourses(data);
+        setIsLoading(false);
+      }
+    });
+    return () => { mounted = false; };
+  }, []);
 
   const filtered = useMemo(() => {
-    let list = Object.entries(courses) as CourseEntry[];
+    let list = [...allCourses];
     const slugsInCategory = category === "Todos" ? null : CATEGORIES[category];
     if (slugsInCategory) {
-      list = list.filter(([slug]) => slugsInCategory.includes(slug));
+      list = list.filter((c) => slugsInCategory.includes(c.id));
     }
     if (search.trim()) {
       const q = search.trim().toLowerCase();
       list = list.filter(
-        ([, c]) =>
+        (c) =>
           c.title.toLowerCase().includes(q) || c.description.toLowerCase().includes(q)
       );
     }
     return list;
-  }, [search, category]);
+  }, [allCourses, search, category]);
 
   const isSearching = search.trim() !== "" || category !== "Todos";
+  
+  if (isLoading) {
+    return <div className="text-center py-20 text-[#94a3b8] animate-pulse">Cargando catálogo intergaláctico...</div>;
+  }
 
   return (
     <>
@@ -108,14 +134,14 @@ export default function CoursesContent() {
             <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
               🔥 <span>Cursos populares</span>
             </h2>
-            <CourseRow slugs={POPULAR_SLUGS} />
+            <CourseRow slugs={POPULAR_SLUGS} allCourses={allCourses} />
           </section>
 
           <section>
             <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
               🆕 <span>Nuevos cursos</span>
             </h2>
-            <CourseRow slugs={NEW_SLUGS} />
+            <CourseRow slugs={NEW_SLUGS} allCourses={allCourses} />
           </section>
 
           <div className="border-t border-white/10 pt-10">
@@ -153,15 +179,8 @@ export default function CoursesContent() {
 
       {/* ── Full grid ── */}
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="cursos">
-        {filtered.map(([slug, course]) => (
-          <div key={slug} className="curso-card">
-            <div className="curso-card-placeholder">{EMOJI_BY_SLUG[slug] ?? "📚"}</div>
-            <h3>{course.title}</h3>
-            <p>{course.description}</p>
-            <Link href={`/courses/${slug}`} className="btn-curso">
-              Ver curso
-            </Link>
-          </div>
+        {filtered.map((course) => (
+          <CourseCard key={course.id} course={course} />
         ))}
       </div>
 
